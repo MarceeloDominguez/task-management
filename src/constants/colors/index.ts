@@ -10,4 +10,9 @@ export const COLORS = {
   SECONDARY: {
     1: "#3168e0",
   },
+  CARD: {
+    1: "#714dd9",
+    2: "#2196f3",
+    3: "#12b57a",
+  },
 };

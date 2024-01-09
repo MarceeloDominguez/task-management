@@ -21,5 +21,6 @@ const styles = StyleSheet.create({
     color: COLORS.TEXT_COLOR[1],
     letterSpacing: 0.3,
     marginBottom: 6,
+    fontFamily: "PoppinsBold",
   },
 });

@@ -26,7 +26,8 @@ const styles = StyleSheet.create({
   containerCard: {
     backgroundColor: COLORS.PRIMARY[2],
     marginTop: 15,
-    borderRadius: 10,
+    marginBottom: 10,
+    borderRadius: 12,
     padding: 16,
     flexDirection: "row",
     gap: 8,
@@ -37,6 +38,7 @@ const styles = StyleSheet.create({
   styleText: {
     fontSize: 15,
     color: COLORS.TEXT_COLOR[2],
+    fontFamily: "Poppins",
   },
   containerDate: {
     backgroundColor: COLORS.SECONDARY[1],
@@ -49,8 +51,8 @@ const styles = StyleSheet.create({
   },
   date: {
     color: COLORS.TEXT_COLOR[1],
-    fontWeight: "bold",
     fontSize: 12,
     letterSpacing: 0.3,
+    fontFamily: "PoppinsBold",
   },
 });

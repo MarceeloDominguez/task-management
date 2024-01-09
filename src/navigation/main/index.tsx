@@ -14,7 +14,10 @@ const MainNavigation = () => {
         options={{
           headerShadowVisible: false,
           headerTitle: "Se productivo hoy 🚀",
-          headerTitleStyle: { color: COLORS.TEXT_COLOR[1] },
+          headerTitleStyle: {
+            color: COLORS.TEXT_COLOR[1],
+            fontFamily: "PoppinsBold",
+          },
           headerStyle: { backgroundColor: COLORS.PRIMARY[1] },
         }}
       />

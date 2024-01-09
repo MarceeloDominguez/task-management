@@ -11,7 +11,7 @@ export default function CircleProgress() {
         radius={33}
         initialValue={100}
         valueSuffix={"%"}
-        duration={1000}
+        duration={1500}
         progressValueColor={COLORS.TEXT_COLOR[1]}
         maxValue={100}
         activeStrokeColor={COLORS.SECONDARY[1]}

@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingHorizontal: 16,
     height: 40,
-    borderRadius: 10,
+    borderRadius: 12,
     alignItems: "center",
     marginTop: 12,
   },
@@ -35,5 +35,6 @@ const styles = StyleSheet.create({
     fontSize: 15,
     letterSpacing: 0.3,
     opacity: 0.8,
+    fontFamily: "Poppins",
   },
 });
