@@ -3,10 +3,11 @@ import { View, StyleSheet, TouchableOpacity } from "react-native";
 import TextComponent from "../ui/TextComponent";
 import { COLORS } from "../../constants/colors";
 import { Feather } from "@expo/vector-icons";
+import ProgressBarItemCard from "./ProgressBarItemCard";
 
 const size_container_icon = 30;
 
-export const ItemCard = () => {
+export const ItemCard = ({ item }: any) => {
   return (
     <View>
       <View style={styles.contentIcon}>
@@ -17,26 +18,31 @@ export const ItemCard = () => {
           <Feather name="trash-2" size={16} color={COLORS.TEXT_COLOR[1]} />
         </TouchableOpacity>
       </View>
-      <TouchableOpacity style={styles.contentText} activeOpacity={0.8}>
-        <TextComponent text="UX Design" />
-        <TextComponent
-          text="Task management mobile app"
-          style={styles.description}
-        />
+      <TouchableOpacity style={styles.contentBottomCard} activeOpacity={0.8}>
+        <View style={styles.wrapperText}>
+          <TextComponent
+            text={item.name}
+            fontSize={18}
+            color={COLORS.TEXT_COLOR[1]}
+            fontFamily="PoppinsBold"
+          />
+          <TextComponent
+            text={item.description}
+            fontSize={13}
+            color={COLORS.TEXT_COLOR[1]}
+          />
+        </View>
       </TouchableOpacity>
+      <ProgressBarItemCard />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  description: {
-    fontSize: 14,
-    fontFamily: "Poppins",
-  },
   contentIcon: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginVertical: 8,
+    marginVertical: 6,
     padding: 10,
   },
   containerIcon: {
@@ -47,8 +53,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: size_container_icon / 2,
   },
-  contentText: {
+  contentBottomCard: {
     paddingHorizontal: 10,
     paddingBottom: 10,
+  },
+  wrapperText: {
+    height: 120,
   },
 });

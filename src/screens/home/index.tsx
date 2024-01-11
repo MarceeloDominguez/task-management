@@ -19,13 +19,35 @@ const ListHeaderComponent = () => {
   );
 };
 
+const DATA = [
+  {
+    name: "Nostrud ipsum cillum laboris .",
+    description:
+      "qui pariatur laborum non aliqua consequat mollit tempor Tempor nulla reprehenderit sint aute excepteur non eiusmod do.",
+  },
+  {
+    name: "Nostrud ipsum",
+    description:
+      "qui pariatur laborum non aliqua consequat mollit tempor Tempor nulla reprehenderit sint aute excepteur non eiusmod do.",
+  },
+  {
+    name: "Titulo",
+    description: "No hay descripcion",
+  },
+  {
+    name: "Titulo",
+    description: "No hay descripcion",
+  },
+];
+
 export const HomeScreen = () => {
   return (
     <View style={styles.container}>
       <FlatList
         ListHeaderComponent={ListHeaderComponent}
         showsVerticalScrollIndicator={false}
-        data={[...Array(3)]}
+        //data={[...Array(3)]}
+        data={DATA}
         keyExtractor={(_, i) => i.toString()}
         numColumns={2}
         columnWrapperStyle={styles.columnWrapperStyle}
@@ -39,7 +61,7 @@ export const HomeScreen = () => {
                 source={require("../../../assets/card/v-card.png")}
                 style={styles.imageCard}
               />
-              <ItemCard />
+              <ItemCard item={item} />
             </View>
           );
         }}

@@ -8,10 +8,16 @@ export const ProgressTaskCard = () => {
   return (
     <View style={styles.containerCard}>
       <View style={styles.wrapperCardLeft}>
-        <TextComponent text="Tareas en Progreso" />
+        <TextComponent
+          text="Tareas en Progreso"
+          fontSize={18}
+          color={COLORS.TEXT_COLOR[1]}
+          fontFamily="PoppinsBold"
+        />
         <TextComponent
           text="30/40 tareas completadas"
-          style={styles.styleText}
+          fontSize={14}
+          color={COLORS.TEXT_COLOR[2]}
         />
         <View style={styles.containerDate}>
           <Text style={styles.date}>March 22</Text>
@@ -34,11 +40,6 @@ const styles = StyleSheet.create({
   },
   wrapperCardLeft: {
     flex: 1,
-  },
-  styleText: {
-    fontSize: 15,
-    color: COLORS.TEXT_COLOR[2],
-    fontFamily: "Poppins",
   },
   containerDate: {
     backgroundColor: COLORS.SECONDARY[1],

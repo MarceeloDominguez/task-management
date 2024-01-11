@@ -1,15 +1,26 @@
 import React from "react";
 import { Text, StyleSheet, TextStyle } from "react-native";
-import { COLORS } from "../../constants/colors";
 
 type Props = {
   text: string;
   style?: TextStyle;
+  fontSize: number;
+  color: string;
+  fontFamily?: string;
 };
 
-export default function TextComponent({ text, style }: Props) {
+export default function TextComponent({
+  text,
+  fontSize,
+  color,
+  fontFamily = "Poppins",
+  style,
+}: Props) {
   return (
-    <Text style={[styles.text, style]} numberOfLines={2}>
+    <Text
+      style={[styles.text, style, { fontSize, color, fontFamily }]}
+      numberOfLines={2}
+    >
       {text}
     </Text>
   );
@@ -17,10 +28,7 @@ export default function TextComponent({ text, style }: Props) {
 
 const styles = StyleSheet.create({
   text: {
-    fontSize: 18,
-    color: COLORS.TEXT_COLOR[1],
     letterSpacing: 0.3,
     marginBottom: 6,
-    fontFamily: "PoppinsBold",
   },
 });

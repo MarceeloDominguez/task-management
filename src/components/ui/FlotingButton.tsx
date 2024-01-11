@@ -1,7 +1,8 @@
 import React from "react";
-import { Text, TouchableOpacity, StyleSheet } from "react-native";
+import { TouchableOpacity, StyleSheet } from "react-native";
 import { COLORS } from "../../constants/colors";
 import { Feather } from "@expo/vector-icons";
+import TextComponent from "./TextComponent";
 
 type Props = {
   title: string;
@@ -10,7 +11,13 @@ type Props = {
 export default function FlotingButton({ title }: Props) {
   return (
     <TouchableOpacity activeOpacity={0.9} style={styles.coontainerButton}>
-      <Text style={styles.buttonTitle}>{title}</Text>
+      <TextComponent
+        text={title}
+        fontSize={13}
+        fontFamily="PoppinsBold"
+        color={COLORS.TEXT_COLOR[1]}
+        style={styles.buttonTitle}
+      />
       <Feather name="plus" size={18} color={COLORS.TEXT_COLOR[1]} />
     </TouchableOpacity>
   );
@@ -30,9 +37,6 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   buttonTitle: {
-    color: COLORS.TEXT_COLOR[1],
-    letterSpacing: 0.3,
-    fontSize: 13,
-    fontFamily: "PoppinsBold",
+    marginBottom: 0,
   },
 });
