@@ -10,13 +10,13 @@ export const ProgressTaskCard = () => {
       <View style={styles.wrapperCardLeft}>
         <TextComponent
           text="Tareas en Progreso"
-          fontSize={18}
+          fontSize={16}
           color={COLORS.TEXT_COLOR[1]}
           fontFamily="PoppinsBold"
         />
         <TextComponent
           text="30/40 tareas completadas"
-          fontSize={14}
+          fontSize={13}
           color={COLORS.TEXT_COLOR[2]}
         />
         <View style={styles.containerDate}>

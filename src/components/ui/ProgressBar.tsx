@@ -1,13 +1,22 @@
 import React, { useEffect } from "react";
 import { View, StyleSheet } from "react-native";
-import { COLORS } from "../../constants/colors";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
 
-export default function ProgressBar() {
+type Props = {
+  height?: number;
+  inactiveBarBackgroundColor?: string;
+  activeBarBackgroundColor?: string;
+};
+
+export default function ProgressBar({
+  height = 6,
+  inactiveBarBackgroundColor = "#3c444a",
+  activeBarBackgroundColor = "#3168e0",
+}: Props) {
   const random = 50;
 
   const percentageWidth = useSharedValue(0);
@@ -24,23 +33,33 @@ export default function ProgressBar() {
 
   return (
     <View>
-      <View style={[styles.bottomBar]} />
-      <Animated.View style={[styles.bottomBarAnimated, progressAnimated]} />
+      <View
+        style={[
+          styles.bottomBar,
+          {
+            height,
+            borderRadius: height / 2,
+            backgroundColor: inactiveBarBackgroundColor,
+          },
+        ]}
+      />
+      <Animated.View
+        style={[
+          {
+            height,
+            borderRadius: height / 2,
+            backgroundColor: activeBarBackgroundColor,
+          },
+          progressAnimated,
+        ]}
+      />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   bottomBar: {
-    height: 6,
     width: "100%",
-    backgroundColor: "#3c444a",
     position: "absolute",
-    borderRadius: 3,
-  },
-  bottomBarAnimated: {
-    height: 6,
-    backgroundColor: COLORS.SECONDARY[1],
-    borderRadius: 3,
   },
 });

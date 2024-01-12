@@ -21,7 +21,21 @@ const MainNavigation = () => {
           headerStyle: { backgroundColor: COLORS.PRIMARY[1] },
         }}
       />
-      <Stack.Screen name="DetailsScreen" component={DetailsScreen} />
+      <Stack.Screen
+        name="DetailsScreen"
+        component={DetailsScreen}
+        options={{
+          headerShadowVisible: false,
+          headerTitle: "Detalles de la tarea",
+          headerTitleAlign: "center",
+          headerTitleStyle: {
+            color: COLORS.TEXT_COLOR[1],
+            fontFamily: "PoppinsSemiBold",
+            fontSize: 16,
+          },
+          headerTintColor: COLORS.TEXT_COLOR[1],
+        }}
+      />
       <Stack.Screen name="SearchScreen" component={SearchScreen} />
     </Stack.Navigator>
   );

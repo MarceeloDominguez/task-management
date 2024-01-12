@@ -7,6 +7,7 @@ type Props = {
   fontSize: number;
   color: string;
   fontFamily?: string;
+  numberOfLines?: number;
 };
 
 export default function TextComponent({
@@ -15,11 +16,12 @@ export default function TextComponent({
   color,
   fontFamily = "Poppins",
   style,
+  numberOfLines = 2,
 }: Props) {
   return (
     <Text
       style={[styles.text, style, { fontSize, color, fontFamily }]}
-      numberOfLines={2}
+      numberOfLines={numberOfLines}
     >
       {text}
     </Text>

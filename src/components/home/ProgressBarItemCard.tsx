@@ -6,7 +6,7 @@ import { COLORS } from "../../constants/colors";
 
 export default function ProgressBarItemCard() {
   return (
-    <View style={styles.contentBarProgress}>
+    <View>
       <ProgressBar />
       <View style={styles.wrapperTextBarProgress}>
         <TextComponent
@@ -27,9 +27,6 @@ export default function ProgressBarItemCard() {
 }
 
 const styles = StyleSheet.create({
-  contentBarProgress: {
-    padding: 10,
-  },
   wrapperTextBarProgress: {
     flexDirection: "row",
     justifyContent: "space-between",

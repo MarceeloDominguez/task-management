@@ -38,6 +38,11 @@ const DATA = [
     name: "Titulo",
     description: "No hay descripcion",
   },
+  {
+    name: "Nostrud ipsum",
+    description:
+      "qui pariatur laborum non aliqua consequat mollit tempor Tempor nulla reprehenderit sint aute excepteur non eiusmod do.",
+  },
 ];
 
 export const HomeScreen = () => {
@@ -61,7 +66,7 @@ export const HomeScreen = () => {
                 source={require("../../../assets/card/v-card.png")}
                 style={styles.imageCard}
               />
-              <ItemCard item={item} />
+              <ItemCard item={item} backgroundColor={backgroundColor} />
             </View>
           );
         }}
@@ -79,7 +84,7 @@ const styles = StyleSheet.create({
   },
   columnWrapperStyle: {
     justifyContent: "space-between",
-    marginVertical: 10,
+    marginVertical: 5,
     gap: 5,
   },
   contentItem: {

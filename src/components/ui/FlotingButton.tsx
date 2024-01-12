@@ -1,16 +1,25 @@
 import React from "react";
-import { TouchableOpacity, StyleSheet } from "react-native";
+import { TouchableOpacity, StyleSheet, TextStyle } from "react-native";
 import { COLORS } from "../../constants/colors";
 import { Feather } from "@expo/vector-icons";
 import TextComponent from "./TextComponent";
 
 type Props = {
   title: string;
+  backgroundColor?: string;
+  style?: TextStyle;
 };
 
-export default function FlotingButton({ title }: Props) {
+export default function FlotingButton({
+  title,
+  style,
+  backgroundColor = COLORS.SECONDARY[1],
+}: Props) {
   return (
-    <TouchableOpacity activeOpacity={0.9} style={styles.coontainerButton}>
+    <TouchableOpacity
+      activeOpacity={0.9}
+      style={[styles.coontainerButton, style, { backgroundColor }]}
+    >
       <TextComponent
         text={title}
         fontSize={13}
@@ -24,7 +33,6 @@ export default function FlotingButton({ title }: Props) {
 }
 const styles = StyleSheet.create({
   coontainerButton: {
-    backgroundColor: COLORS.SECONDARY[1],
     position: "absolute",
     left: 70,
     right: 70,

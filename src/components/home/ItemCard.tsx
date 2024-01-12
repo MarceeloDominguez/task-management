@@ -4,10 +4,19 @@ import TextComponent from "../ui/TextComponent";
 import { COLORS } from "../../constants/colors";
 import { Feather } from "@expo/vector-icons";
 import ProgressBarItemCard from "./ProgressBarItemCard";
+import { useNavigation } from "@react-navigation/native";
+import { UseNavigation } from "../../navigation/type";
+
+type Props = {
+  item: any;
+  backgroundColor: string;
+};
 
 const size_container_icon = 30;
 
-export const ItemCard = ({ item }: any) => {
+export const ItemCard = ({ item, backgroundColor }: Props) => {
+  const navigation = useNavigation<UseNavigation>();
+
   return (
     <View>
       <View style={styles.contentIcon}>
@@ -18,22 +27,28 @@ export const ItemCard = ({ item }: any) => {
           <Feather name="trash-2" size={16} color={COLORS.TEXT_COLOR[1]} />
         </TouchableOpacity>
       </View>
-      <TouchableOpacity style={styles.contentBottomCard} activeOpacity={0.8}>
+      <TouchableOpacity
+        style={styles.contentBottomCard}
+        activeOpacity={0.8}
+        onPress={() =>
+          navigation.navigate("DetailsScreen", { backgroundColor })
+        }
+      >
         <View style={styles.wrapperText}>
           <TextComponent
             text={item.name}
-            fontSize={18}
+            fontSize={14}
             color={COLORS.TEXT_COLOR[1]}
             fontFamily="PoppinsBold"
           />
           <TextComponent
             text={item.description}
-            fontSize={13}
+            fontSize={12}
             color={COLORS.TEXT_COLOR[1]}
           />
         </View>
+        <ProgressBarItemCard />
       </TouchableOpacity>
-      <ProgressBarItemCard />
     </View>
   );
 };
