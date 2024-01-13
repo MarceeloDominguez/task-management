@@ -19,7 +19,11 @@ export const Progress = ({ backgroundColor }: Props) => {
       </View>
       <View style={styles.containerBarProgress}>
         <View style={{ flex: 1 }}>
-          <ProgressBar height={10} activeBarBackgroundColor={backgroundColor} />
+          <ProgressBar
+            heightActiveBar={10}
+            heightInactiveBar={8}
+            BackgroundColorBarActive={backgroundColor}
+          />
         </View>
         <TextComponent
           text="70%"
@@ -35,7 +39,7 @@ export const Progress = ({ backgroundColor }: Props) => {
 
 const styles = StyleSheet.create({
   containerBarProgress: {
-    marginVertical: 5,
+    marginVertical: 2,
     flexDirection: "row",
     alignItems: "center",
     gap: 20,

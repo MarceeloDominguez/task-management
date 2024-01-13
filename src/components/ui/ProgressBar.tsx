@@ -7,17 +7,19 @@ import Animated, {
 } from "react-native-reanimated";
 
 type Props = {
-  height?: number;
-  inactiveBarBackgroundColor?: string;
-  activeBarBackgroundColor?: string;
+  heightActiveBar?: number;
+  heightInactiveBar?: number;
+  BackgroundColorBarInactive?: string;
+  BackgroundColorBarActive?: string;
 };
 
 export default function ProgressBar({
-  height = 6,
-  inactiveBarBackgroundColor = "#3c444a",
-  activeBarBackgroundColor = "#3168e0",
+  heightActiveBar = 6,
+  heightInactiveBar = 6,
+  BackgroundColorBarInactive = "#3c444a",
+  BackgroundColorBarActive = "#3168e0",
 }: Props) {
-  const random = 50;
+  const random = 70;
 
   const percentageWidth = useSharedValue(0);
 
@@ -32,23 +34,23 @@ export default function ProgressBar({
   }, []);
 
   return (
-    <View>
+    <View style={{ justifyContent: "center" }}>
       <View
         style={[
           styles.bottomBar,
           {
-            height,
-            borderRadius: height / 2,
-            backgroundColor: inactiveBarBackgroundColor,
+            height: heightInactiveBar,
+            borderRadius: heightInactiveBar / 2,
+            backgroundColor: BackgroundColorBarInactive,
           },
         ]}
       />
       <Animated.View
         style={[
           {
-            height,
-            borderRadius: height / 2,
-            backgroundColor: activeBarBackgroundColor,
+            height: heightActiveBar,
+            borderRadius: heightActiveBar / 2,
+            backgroundColor: BackgroundColorBarActive,
           },
           progressAnimated,
         ]}

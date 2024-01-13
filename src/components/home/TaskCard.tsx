@@ -14,7 +14,7 @@ type Props = {
 
 const size_container_icon = 30;
 
-export const ItemCard = ({ item, backgroundColor }: Props) => {
+export const TaskCard = ({ item, backgroundColor }: Props) => {
   const navigation = useNavigation<UseNavigation>();
 
   return (

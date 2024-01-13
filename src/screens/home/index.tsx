@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, FlatList, View, Dimensions, Image } from "react-native";
 import { COLORS } from "../../constants/colors";
-import { Input, ItemCard, ProgressTaskCard } from "../../components/home";
+import { Input, TaskCard, ProgressTaskCard } from "../../components/home";
 import FlotingButton from "../../components/ui/FlotingButton";
 
 const { width } = Dimensions.get("window");
@@ -66,7 +66,7 @@ export const HomeScreen = () => {
                 source={require("../../../assets/card/v-card.png")}
                 style={styles.imageCard}
               />
-              <ItemCard item={item} backgroundColor={backgroundColor} />
+              <TaskCard item={item} backgroundColor={backgroundColor} />
             </View>
           );
         }}

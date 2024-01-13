@@ -5,6 +5,7 @@ import {
   Description,
   Progress,
   ShapeCard,
+  SubTasks,
   Title,
 } from "../../components/details";
 import FlotingButton from "../../components/ui/FlotingButton";
@@ -36,9 +37,10 @@ export const DetailsScreen = ({ route }: Props) => {
         <View style={styles.contentScreen}>
           <Description description="Officia minim anim consequat duis est velit ase e esr adtrw as excepteur irure sunt tempor nostrud in laborum.Cillum laborum incididunt et deserunt. Velit adipisicing cillum cupidatat excepteur aliquip ipsum officia consectetur ullamco sint cillum officia." />
           <Progress backgroundColor={backgroundColor} />
+          <SubTasks />
         </View>
       </ScrollView>
-      <FlotingButton title="Agregar sub tarea" />
+      <FlotingButton title="Agregar sub tareas" />
     </View>
   );
 };
