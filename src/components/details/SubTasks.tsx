@@ -4,7 +4,11 @@ import TextComponent from "../ui/TextComponent";
 import { COLORS } from "../../constants/colors";
 import { Feather } from "@expo/vector-icons";
 
-export const SubTasks = () => {
+type Props = {
+  handlePresentModalPress: () => void;
+};
+
+export const SubTasks = ({ handlePresentModalPress }: Props) => {
   return (
     <View style={styles.container}>
       <TextComponent
@@ -13,7 +17,7 @@ export const SubTasks = () => {
         color={COLORS.TEXT_COLOR[1]}
         fontFamily="PoppinsSemiBold"
       />
-      {[...Array(4)].map((item, index) => (
+      {[...Array(8)].map((item, index) => (
         <View key={index} style={styles.containerCardTask}>
           <TouchableOpacity activeOpacity={0.8} style={styles.contentTask}>
             <View style={styles.contentIconLeft}>
@@ -31,6 +35,7 @@ export const SubTasks = () => {
             size={20}
             color={COLORS.TEXT_COLOR[1]}
             style={styles.iconRight}
+            onPress={handlePresentModalPress}
           />
         </View>
       ))}
@@ -42,6 +47,7 @@ const styles = StyleSheet.create({
   container: {
     marginTop: 10,
     marginBottom: 80,
+    flex: 1,
   },
   containerCardTask: {
     backgroundColor: COLORS.PRIMARY[2],

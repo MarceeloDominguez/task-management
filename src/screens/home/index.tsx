@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { StyleSheet, FlatList, View, Dimensions, Image } from "react-native";
 import { COLORS } from "../../constants/colors";
-import { Input, TaskCard, ProgressTaskCard } from "../../components/home";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import { Input, TaskCard, ProgressTaskCard, Form } from "../../components/home";
 import FlotingButton from "../../components/ui/FlotingButton";
+import { useTasksStore } from "../../store/tasksStore";
+import { LayoutBottomSheetModal } from "../../components/ui/LayoutBottomSheetModal";
 
 const { width } = Dimensions.get("window");
 
@@ -19,40 +22,22 @@ const ListHeaderComponent = () => {
   );
 };
 
-const DATA = [
-  {
-    name: "Nostrud ipsum cillum laboris .",
-    description:
-      "qui pariatur laborum non aliqua consequat mollit tempor Tempor nulla reprehenderit sint aute excepteur non eiusmod do.",
-  },
-  {
-    name: "Nostrud ipsum",
-    description:
-      "qui pariatur laborum non aliqua consequat mollit tempor Tempor nulla reprehenderit sint aute excepteur non eiusmod do.",
-  },
-  {
-    name: "Titulo",
-    description: "No hay descripcion",
-  },
-  {
-    name: "Titulo",
-    description: "No hay descripcion",
-  },
-  {
-    name: "Nostrud ipsum",
-    description:
-      "qui pariatur laborum non aliqua consequat mollit tempor Tempor nulla reprehenderit sint aute excepteur non eiusmod do.",
-  },
-];
-
 export const HomeScreen = () => {
+  const bottomSheetRef = useRef<BottomSheetModal>(null);
+  const { tasks, getAllTasks } = useTasksStore();
+
+  const handlePresentModalPress = () => bottomSheetRef.current?.present();
+
+  useEffect(() => {
+    getAllTasks();
+  }, []);
+
   return (
     <View style={styles.container}>
       <FlatList
         ListHeaderComponent={ListHeaderComponent}
         showsVerticalScrollIndicator={false}
-        //data={[...Array(3)]}
-        data={DATA}
+        data={tasks}
         keyExtractor={(_, i) => i.toString()}
         numColumns={2}
         columnWrapperStyle={styles.columnWrapperStyle}
@@ -71,7 +56,13 @@ export const HomeScreen = () => {
           );
         }}
       />
-      <FlotingButton title="Agregar nueva tarea" />
+      <FlotingButton
+        title="Agregar nueva tarea"
+        onPress={handlePresentModalPress}
+      />
+      <LayoutBottomSheetModal ref={bottomSheetRef}>
+        <Form />
+      </LayoutBottomSheetModal>
     </View>
   );
 };

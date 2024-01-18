@@ -8,17 +8,20 @@ type Props = {
   title: string;
   backgroundColor?: string;
   style?: TextStyle;
+  onPress: () => void;
 };
 
 export default function FlotingButton({
   title,
   style,
   backgroundColor = COLORS.SECONDARY[1],
+  onPress,
 }: Props) {
   return (
     <TouchableOpacity
       activeOpacity={0.9}
       style={[styles.coontainerButton, style, { backgroundColor }]}
+      onPress={onPress}
     >
       <TextComponent
         text={title}
