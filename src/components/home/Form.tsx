@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
 import CustomTextInput from "../ui/CustomTextInput";
 import LabelTextInput from "../ui/LabelTextInput";
 import CustomButton from "../ui/CustomButton";
+import { CustomCalendar, LayoutModalCalendar } from "../../components/home";
 
 const { height } = Dimensions.get("window");
 
 export const Form = () => {
+  const [isOpenModal, setIsOpenModal] = useState(false);
+
   return (
     <View style={styles.container}>
       <LabelTextInput label="Nueva Tarea" />
@@ -15,20 +18,38 @@ export const Form = () => {
       <CustomTextInput
         placeholder="Descripción de la tarea..."
         multiline
+        keyboardType="default"
+        blurOnSubmit
         additionalStyles={styles.additionalStyles}
       />
-      <LabelTextInput label="Seleccionar Fechas" />
       <View style={styles.wrapperButtonDate}>
-        <CustomButton
-          buttonTitle="Fecha de Inicio"
-          additionalStyles={styles.button}
-        />
-        <CustomButton
-          buttonTitle="Fecha Final"
-          additionalStyles={styles.button}
-        />
+        <View style={styles.wrapperButtonLabel}>
+          <LabelTextInput label="Inicio" />
+          <CustomButton
+            buttonTitle="Fecha de Inicio"
+            additionalStyles={styles.button}
+            onPress={() => setIsOpenModal(true)}
+          />
+        </View>
+        <View style={styles.wrapperButtonLabel}>
+          <LabelTextInput label="Final" />
+          <CustomButton
+            buttonTitle="Fecha Final"
+            additionalStyles={styles.button}
+            onPress={() => setIsOpenModal(true)}
+          />
+        </View>
       </View>
       <CustomButton buttonTitle="Agregar" />
+      <LayoutModalCalendar
+        isOpenModal={isOpenModal}
+        onPress={(e) => {
+          setIsOpenModal(false);
+          e.stopPropagation();
+        }}
+      >
+        <CustomCalendar onPress={() => setIsOpenModal(false)} />
+      </LayoutModalCalendar>
     </View>
   );
 };
@@ -45,12 +66,14 @@ const styles = StyleSheet.create({
   },
   wrapperButtonDate: {
     flexDirection: "row",
-    gap: 8,
+    gap: 18,
     marginBottom: height > 592 ? 50 : 30,
     marginTop: 8,
   },
-  button: {
+  wrapperButtonLabel: {
     flex: 1,
+  },
+  button: {
     borderWidth: 1,
     borderColor: "rgba(142, 141, 145, 0.4)",
     backgroundColor: "transparent",
