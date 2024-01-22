@@ -50,7 +50,10 @@ export const LayoutBottomSheetModal = React.forwardRef<Ref, Props>(
         keyboardBehavior={Platform.OS === "ios" ? "extend" : "interactive"}
         handleIndicatorStyle={{ backgroundColor: COLORS.SECONDARY[1] }}
       >
-        <BottomSheetScrollView showsVerticalScrollIndicator={false}>
+        <BottomSheetScrollView
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="always"
+        >
           {props.children}
         </BottomSheetScrollView>
       </BottomSheetModal>

@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, TextInputProps, TextStyle } from "react-native";
+import { StyleSheet, TextInputProps, TextStyle } from "react-native";
 import { BottomSheetTextInput } from "@gorhom/bottom-sheet";
 import { COLORS } from "../../constants/colors";
 

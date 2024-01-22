@@ -26,7 +26,10 @@ export const HomeScreen = () => {
   const bottomSheetRef = useRef<BottomSheetModal>(null);
   const { tasks, getAllTasks } = useTasksStore();
 
-  const handlePresentModalPress = () => bottomSheetRef.current?.present();
+  // const handleDismissbottomSheetPress = () => bottomSheetRef.current?.dismiss();
+  const handlePresentbottomSheetPress = () => bottomSheetRef.current?.present();
+
+  console.log(handlePresentbottomSheetPress());
 
   useEffect(() => {
     getAllTasks();
@@ -58,7 +61,7 @@ export const HomeScreen = () => {
       />
       <FlotingButton
         title="Agregar nueva tarea"
-        onPress={handlePresentModalPress}
+        onPress={handlePresentbottomSheetPress}
       />
       <LayoutBottomSheetModal ref={bottomSheetRef}>
         <Form />

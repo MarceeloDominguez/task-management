@@ -12,11 +12,11 @@ type Props = {
   onPress: (e: GestureResponderEvent) => void;
 };
 
-export const LayoutModalCalendar = ({
+export default function LayoutModalCalendar({
   children,
   isOpenModal,
   onPress,
-}: Props) => {
+}: Props) {
   return (
     <Modal visible={isOpenModal} transparent animationType="fade">
       <Pressable onPress={onPress} style={styles.wrapperChildren}>
@@ -24,7 +24,7 @@ export const LayoutModalCalendar = ({
       </Pressable>
     </Modal>
   );
-};
+}
 
 const styles = StyleSheet.create({
   wrapperChildren: {
