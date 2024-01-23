@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { View, StyleSheet, ScrollView } from "react-native";
+import { View, StyleSheet, ScrollView, Text } from "react-native";
 import {
   Date,
   Description,
@@ -50,7 +50,9 @@ export const DetailsScreen = ({ route }: Props) => {
         title="Agregar sub tareas"
         onPress={() => console.log("Sub tasks...")}
       />
-      <CustomBottomSheet ref={bottomSheetRef} />
+      <CustomBottomSheet ref={bottomSheetRef}>
+        <Text>Hola desde detalles</Text>
+      </CustomBottomSheet>
     </View>
   );
 };

@@ -6,6 +6,7 @@ import { Input, TaskCard, ProgressTaskCard, Form } from "../../components/home";
 import FlotingButton from "../../components/ui/FlotingButton";
 import { useTasksStore } from "../../store/tasksStore";
 import { LayoutBottomSheetModal } from "../../components/ui/LayoutBottomSheetModal";
+import Loading from "../../components/ui/Loading";
 
 const { width } = Dimensions.get("window");
 
@@ -13,58 +14,61 @@ const ITEM_WIDTH = width * 0.5 - 21; //16px padding horizontal + 5px of the item
 
 const COLORS_CARD = [COLORS.CARD[1], COLORS.CARD[2], COLORS.CARD[3]];
 
-const ListHeaderComponent = () => {
-  return (
-    <>
-      <Input />
-      <ProgressTaskCard />
-    </>
-  );
-};
-
 export const HomeScreen = () => {
   const bottomSheetRef = useRef<BottomSheetModal>(null);
-  const { tasks, getAllTasks } = useTasksStore();
-
-  // const handleDismissbottomSheetPress = () => bottomSheetRef.current?.dismiss();
-  const handlePresentbottomSheetPress = () => bottomSheetRef.current?.present();
-
-  console.log(handlePresentbottomSheetPress());
+  const { tasks, getAllTasks, isLoading } = useTasksStore();
 
   useEffect(() => {
     getAllTasks();
   }, []);
 
+  const ListHeaderComponent = () => {
+    return (
+      <>
+        <Input />
+        <ProgressTaskCard />
+      </>
+    );
+  };
+
+  const handlePresentbottomSheetPress = () => bottomSheetRef.current?.present();
+  const handleDismissbottomSheet = () => bottomSheetRef.current?.dismiss();
+
   return (
     <View style={styles.container}>
-      <FlatList
-        ListHeaderComponent={ListHeaderComponent}
-        showsVerticalScrollIndicator={false}
-        data={tasks}
-        keyExtractor={(_, i) => i.toString()}
-        numColumns={2}
-        columnWrapperStyle={styles.columnWrapperStyle}
-        contentContainerStyle={{ paddingBottom: 80 }}
-        renderItem={({ item, index }) => {
-          const backgroundColor = COLORS_CARD[index % COLORS_CARD.length];
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <FlatList
+          ListHeaderComponent={ListHeaderComponent}
+          showsVerticalScrollIndicator={false}
+          data={tasks}
+          keyExtractor={(_, i) => i.toString()}
+          numColumns={2}
+          columnWrapperStyle={styles.columnWrapperStyle}
+          contentContainerStyle={{ paddingBottom: 80 }}
+          renderItem={({ item, index }) => {
+            const backgroundColor = COLORS_CARD[index % COLORS_CARD.length];
 
-          return (
-            <View style={[styles.contentItem, { backgroundColor }]}>
-              <Image
-                source={require("../../../assets/card/v-card.png")}
-                style={styles.imageCard}
-              />
-              <TaskCard item={item} backgroundColor={backgroundColor} />
-            </View>
-          );
-        }}
-      />
+            return (
+              <View style={[styles.contentItem, { backgroundColor }]}>
+                <Image
+                  source={require("../../../assets/card/v-card.png")}
+                  style={styles.imageCard}
+                />
+                <TaskCard item={item} backgroundColor={backgroundColor} />
+              </View>
+            );
+          }}
+        />
+      )}
       <FlotingButton
         title="Agregar nueva tarea"
         onPress={handlePresentbottomSheetPress}
+        disabled={isLoading}
       />
       <LayoutBottomSheetModal ref={bottomSheetRef}>
-        <Form />
+        <Form handleDismissbottomSheet={handleDismissbottomSheet} />
       </LayoutBottomSheetModal>
     </View>
   );

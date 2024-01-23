@@ -6,9 +6,10 @@ import {
   BottomSheetModal,
   useBottomSheetSpringConfigs,
 } from "@gorhom/bottom-sheet";
+import { COLORS } from "../../constants/colors";
 
 type Ref = BottomSheetModal;
-type Props = {};
+type Props = { children: React.ReactNode };
 
 export const CustomBottomSheet = forwardRef<Ref, Props>((props, ref) => {
   const snapPoints = React.useMemo(() => ["25%"], []);
@@ -40,14 +41,14 @@ export const CustomBottomSheet = forwardRef<Ref, Props>((props, ref) => {
         index={0}
         snapPoints={snapPoints}
         enableContentPanningGesture={false}
-        backgroundStyle={{ backgroundColor: "red" }}
+        backgroundStyle={{ backgroundColor: COLORS.PRIMARY[1] }}
+        handleIndicatorStyle={{ backgroundColor: COLORS.SECONDARY[1] }}
+        style={{ paddingHorizontal: 16 }}
         enablePanDownToClose={true}
         animationConfigs={animationConfigs}
         backdropComponent={renderBackdrop}
       >
-        <View>
-          <Text>Bottom Sheet contenido</Text>
-        </View>
+        {props.children}
       </BottomSheetModal>
     </View>
   );

@@ -9,6 +9,7 @@ type Props = {
   backgroundColor?: string;
   style?: TextStyle;
   onPress: () => void;
+  disabled?: boolean;
 };
 
 export default function FlotingButton({
@@ -16,12 +17,18 @@ export default function FlotingButton({
   style,
   backgroundColor = COLORS.SECONDARY[1],
   onPress,
+  disabled,
 }: Props) {
   return (
     <TouchableOpacity
       activeOpacity={0.9}
-      style={[styles.coontainerButton, style, { backgroundColor }]}
+      style={[
+        styles.coontainerButton,
+        style,
+        { backgroundColor, opacity: disabled ? 0.5 : 1 },
+      ]}
       onPress={onPress}
+      disabled={disabled}
     >
       <TextComponent
         text={title}

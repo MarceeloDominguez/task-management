@@ -10,15 +10,15 @@ import { useTasksStore } from "../../store/tasksStore";
 
 const { height } = Dimensions.get("window");
 
-type Props = {};
+type Props = {
+  handleDismissbottomSheet: () => void;
+};
 
-export const Form = () => {
+export const Form = ({ handleDismissbottomSheet }: Props) => {
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [selectDate, setSelectDate] = useState<string[]>([]);
   const [formData, setFormData] = useState({ task: "", description: "" });
   const { addTasks } = useTasksStore();
-
-  console.log(formData);
 
   const compareDates = (a: string, b: string) => {
     const dateA = new Date(a);
@@ -34,8 +34,9 @@ export const Form = () => {
   };
 
   const handleFormSubmit = () => {
-    //cierro el bottomsheet
-    //handleDismissbottomSheetPress();
+    //cierre del bottom sheet
+    handleDismissbottomSheet();
+
     addTasks({
       description: formData.description,
       title: formData.task,
