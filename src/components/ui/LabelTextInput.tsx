@@ -5,15 +5,30 @@ import { COLORS } from "../../constants/colors";
 type Props = {
   label: string;
   asterisk?: boolean;
+  error?: boolean;
+  sent?: boolean;
 };
 
-export default function LabelTextInput({ label, asterisk = true }: Props) {
+export default function LabelTextInput({
+  label,
+  asterisk = true,
+  error,
+  sent,
+}: Props) {
   return (
     <View style={styles.container}>
       <Text style={styles.label} numberOfLines={1}>
         {label}
       </Text>
-      {asterisk ? <Text style={{ color: COLORS.TEXT_COLOR[1] }}>*</Text> : null}
+      {asterisk ? (
+        <Text
+          style={{
+            color: error && sent ? COLORS.ERROR[1] : COLORS.TEXT_COLOR[1],
+          }}
+        >
+          *
+        </Text>
+      ) : null}
     </View>
   );
 }

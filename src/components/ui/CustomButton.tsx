@@ -13,6 +13,7 @@ interface Props extends TouchableOpacityProps {
   buttonTitle: string;
   additionalStyles?: ViewStyle;
   additionalTextStyles?: TextStyle;
+  children?: React.ReactNode;
 }
 
 export default function CustomButton(props: Props) {
@@ -25,6 +26,7 @@ export default function CustomButton(props: Props) {
       activeOpacity={0.8}
       {...props}
     >
+      {props.children}
       <Text
         style={StyleSheet.flatten([
           styles.buttonTitle,
@@ -44,9 +46,12 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     alignItems: "center",
     justifyContent: "center",
+    flexDirection: "row",
+    gap: 5,
   },
   buttonTitle: {
     color: COLORS.TEXT_COLOR[1],
     fontFamily: "PoppinsBold",
+    fontSize: 13,
   },
 });

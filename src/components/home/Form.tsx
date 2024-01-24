@@ -7,6 +7,8 @@ import LayoutModalCalendar from "./LayoutModalCalendar";
 import CustomCalendar from "./CustomCalendar";
 import { COLORS } from "../../constants/colors";
 import { useTasksStore } from "../../store/tasksStore";
+import { compareDates, formatDates, validateForm } from "../../helpers";
+import { Feather } from "@expo/vector-icons";
 
 const { height } = Dimensions.get("window");
 
@@ -18,14 +20,9 @@ export const Form = ({ handleDismissbottomSheet }: Props) => {
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [selectDate, setSelectDate] = useState<string[]>([]);
   const [formData, setFormData] = useState({ task: "", description: "" });
+  const [sent, setSent] = useState(false);
+  const errors = validateForm(formData);
   const { addTasks } = useTasksStore();
-
-  const compareDates = (a: string, b: string) => {
-    const dateA = new Date(a);
-    const dateB = new Date(b);
-
-    return dateA.getTime() - dateB.getTime();
-  };
 
   const sortedDates = selectDate.sort(compareDates);
 
@@ -34,6 +31,10 @@ export const Form = ({ handleDismissbottomSheet }: Props) => {
   };
 
   const handleFormSubmit = () => {
+    setSent(true);
+
+    if (!formData.task || !formData.description) return;
+
     //cierre del bottom sheet
     handleDismissbottomSheet();
 
@@ -56,19 +57,37 @@ export const Form = ({ handleDismissbottomSheet }: Props) => {
 
   return (
     <View style={styles.container}>
-      <LabelTextInput label="Nueva Tarea" />
+      <LabelTextInput
+        label="Nueva Tarea"
+        error={errors.errorTask}
+        sent={sent}
+      />
       <CustomTextInput
         placeholder="¿Cuál es tu próxima tarea?"
         value={formData.task}
         onChangeText={(value) => handleChange("task", value)}
+        additionalStyles={{
+          borderWidth: 1,
+          borderColor:
+            errors.errorTask && sent ? COLORS.ERROR[1] : "transparent",
+        }}
       />
-      <LabelTextInput label="Descripción de la Tarea" />
+      <LabelTextInput
+        label="Descripción de la Tarea"
+        error={errors.errorDescription}
+        sent={sent}
+      />
       <CustomTextInput
         placeholder="Descripción de la tarea..."
         multiline
         keyboardType="default"
         blurOnSubmit
-        additionalStyles={styles.additionalStyles}
+        additionalStyles={{
+          ...styles.additionalStyles,
+          borderWidth: 1,
+          borderColor:
+            errors.errorDescription && sent ? COLORS.ERROR[1] : "transparent",
+        }}
         value={formData.description}
         onChangeText={(value) => handleChange("description", value)}
       />
@@ -83,18 +102,38 @@ export const Form = ({ handleDismissbottomSheet }: Props) => {
         <View style={styles.wrapperButtonLabel}>
           <LabelTextInput label="Inicio" asterisk={false} />
           <CustomButton
-            buttonTitle={selectDate[0] ? selectDate[0] : "Fecha de Inicio"}
+            buttonTitle={
+              selectDate[0] ? formatDates(selectDate[0]) : "Fecha de Inicio"
+            }
             additionalStyles={styles.date}
+            additionalTextStyles={styles.textStylesButtonDate}
             activeOpacity={1}
-          />
+          >
+            <Feather
+              name="calendar"
+              size={16}
+              color={COLORS.TEXT_COLOR[1]}
+              style={styles.iconCalendar}
+            />
+          </CustomButton>
         </View>
         <View style={styles.wrapperButtonLabel}>
           <LabelTextInput label="Final" asterisk={false} />
           <CustomButton
-            buttonTitle={selectDate[1] ? selectDate[1] : "Fecha Final"}
+            buttonTitle={
+              selectDate[1] ? formatDates(selectDate[1]) : "Fecha Final"
+            }
             additionalStyles={styles.date}
+            additionalTextStyles={styles.textStylesButtonDate}
             activeOpacity={1}
-          />
+          >
+            <Feather
+              name="calendar"
+              size={16}
+              color={COLORS.TEXT_COLOR[1]}
+              style={styles.iconCalendar}
+            />
+          </CustomButton>
         </View>
       </View>
       <CustomButton buttonTitle="Agregar" onPress={handleFormSubmit} />
@@ -153,5 +192,12 @@ const styles = StyleSheet.create({
     borderColor: "rgba(142, 141, 145, 0.4)",
     backgroundColor: "transparent",
     marginTop: 8,
+  },
+  iconCalendar: {
+    marginBottom: 2,
+    opacity: 0.7,
+  },
+  textStylesButtonDate: {
+    opacity: 0.7,
   },
 });

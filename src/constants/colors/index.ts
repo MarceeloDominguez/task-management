@@ -15,4 +15,7 @@ export const COLORS = {
     2: "#2196f3",
     3: "#12b57a",
   },
+  ERROR: {
+    1: "#cf092a",
+  },
 };
