@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
 import CustomTextInput from "../ui/CustomTextInput";
 import LabelTextInput from "../ui/LabelTextInput";
@@ -7,8 +7,9 @@ import LayoutModalCalendar from "./LayoutModalCalendar";
 import CustomCalendar from "./CustomCalendar";
 import { COLORS } from "../../constants/colors";
 import { useTasksStore } from "../../store/tasksStore";
-import { compareDates, formatDates, validateForm } from "../../helpers";
+import { compareDates, formatDate, validateForm } from "../../helpers";
 import { Feather } from "@expo/vector-icons";
+import { useContextProvider } from "../../context/contextProvider";
 
 const { height } = Dimensions.get("window");
 
@@ -22,7 +23,22 @@ export const Form = ({ handleDismissbottomSheet }: Props) => {
   const [formData, setFormData] = useState({ task: "", description: "" });
   const [sent, setSent] = useState(false);
   const errors = validateForm(formData);
-  const { addTasks } = useTasksStore();
+  const { addTasks, editTask } = useTasksStore();
+  const { taskToEdit, bottomSheetVisible, idTask } = useContextProvider();
+
+  useEffect(() => {
+    if (taskToEdit !== null) {
+      setFormData({
+        task: taskToEdit.title,
+        description: taskToEdit.description,
+      });
+    }
+
+    // if (!bottomSheetVisible) {
+    //   setFormData({ task: "", description: "" });
+    //   setSent(false);
+    // }
+  }, [bottomSheetVisible]);
 
   const sortedDates = selectDate.sort(compareDates);
 
@@ -38,13 +54,23 @@ export const Form = ({ handleDismissbottomSheet }: Props) => {
     //cierre del bottom sheet
     handleDismissbottomSheet();
 
-    addTasks({
-      description: formData.description,
-      title: formData.task,
-      startDate: sortedDates[0],
-      finalDate: sortedDates[1],
-      done: false,
-    });
+    if (taskToEdit !== null) {
+      editTask(idTask!, {
+        title: formData.task,
+        description: formData.description,
+        startDate: sortedDates[0] ? sortedDates[0] : taskToEdit.startDate,
+        finalDate: selectDate[1] ? sortedDates[1] : taskToEdit.finalDate,
+        done: false,
+      });
+    } else {
+      addTasks({
+        description: formData.description,
+        title: formData.task,
+        startDate: sortedDates[0],
+        finalDate: sortedDates[1],
+        done: false,
+      });
+    }
   };
 
   const handleApplyDate = () => {
@@ -103,7 +129,11 @@ export const Form = ({ handleDismissbottomSheet }: Props) => {
           <LabelTextInput label="Inicio" asterisk={false} />
           <CustomButton
             buttonTitle={
-              selectDate[0] ? formatDates(selectDate[0]) : "Fecha de Inicio"
+              selectDate[0]
+                ? formatDate(selectDate[0])
+                : taskToEdit?.startDate
+                ? formatDate(taskToEdit.startDate)
+                : "Fecha de Inicio"
             }
             additionalStyles={styles.date}
             additionalTextStyles={styles.textStylesButtonDate}
@@ -121,7 +151,11 @@ export const Form = ({ handleDismissbottomSheet }: Props) => {
           <LabelTextInput label="Final" asterisk={false} />
           <CustomButton
             buttonTitle={
-              selectDate[1] ? formatDates(selectDate[1]) : "Fecha Final"
+              selectDate[1]
+                ? formatDate(selectDate[1])
+                : taskToEdit?.finalDate
+                ? formatDate(taskToEdit.finalDate)
+                : "Fecha Final"
             }
             additionalStyles={styles.date}
             additionalTextStyles={styles.textStylesButtonDate}
@@ -136,7 +170,10 @@ export const Form = ({ handleDismissbottomSheet }: Props) => {
           </CustomButton>
         </View>
       </View>
-      <CustomButton buttonTitle="Agregar" onPress={handleFormSubmit} />
+      <CustomButton
+        buttonTitle={taskToEdit !== null ? "Editar" : "Agregar"}
+        onPress={handleFormSubmit}
+      />
       {/* modal para seleccionar las fechas */}
       <LayoutModalCalendar
         isOpenModal={isOpenModal}

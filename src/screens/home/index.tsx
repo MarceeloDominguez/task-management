@@ -1,12 +1,12 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, FlatList, View, Dimensions, Image } from "react-native";
 import { COLORS } from "../../constants/colors";
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { Input, TaskCard, ProgressTaskCard, Form } from "../../components/home";
 import FlotingButton from "../../components/ui/FlotingButton";
 import { useTasksStore } from "../../store/tasksStore";
 import { LayoutBottomSheetModal } from "../../components/ui/LayoutBottomSheetModal";
 import Loading from "../../components/ui/Loading";
+import { useContextProvider } from "../../context/contextProvider";
 
 const { width } = Dimensions.get("window");
 
@@ -15,8 +15,9 @@ const ITEM_WIDTH = width * 0.5 - 21; //16px padding horizontal + 5px of the item
 const COLORS_CARD = [COLORS.CARD[1], COLORS.CARD[2], COLORS.CARD[3]];
 
 export const HomeScreen = () => {
-  const bottomSheetRef = useRef<BottomSheetModal>(null);
   const { tasks, getAllTasks, isLoading } = useTasksStore();
+  const { bottomSheetRef, handlePresentBottomSheet, handleDismissbottomSheet } =
+    useContextProvider();
 
   useEffect(() => {
     getAllTasks();
@@ -30,9 +31,6 @@ export const HomeScreen = () => {
       </>
     );
   };
-
-  const handlePresentbottomSheetPress = () => bottomSheetRef.current?.present();
-  const handleDismissbottomSheet = () => bottomSheetRef.current?.dismiss();
 
   return (
     <View style={styles.container}>
@@ -64,7 +62,7 @@ export const HomeScreen = () => {
       )}
       <FlotingButton
         title="Agregar nueva tarea"
-        onPress={handlePresentbottomSheetPress}
+        onPress={handlePresentBottomSheet}
         disabled={isLoading}
       />
       <LayoutBottomSheetModal ref={bottomSheetRef}>

@@ -10,7 +10,7 @@ import {
 import { COLORS } from "../../constants/colors";
 
 interface Props extends TouchableOpacityProps {
-  buttonTitle: string;
+  buttonTitle: string | undefined;
   additionalStyles?: ViewStyle;
   additionalTextStyles?: TextStyle;
   children?: React.ReactNode;

@@ -10,6 +10,7 @@ import { useTasksStore } from "../../store/tasksStore";
 import { CustomBottomSheet } from "../ui/CustomBottomSheet";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { ITasks } from "../../interface/tasks";
+import EditTaks from "./EditTaks";
 
 type Props = {
   item: ITasks;
@@ -29,9 +30,7 @@ export const TaskCard = ({ item, backgroundColor }: Props) => {
   return (
     <View>
       <View style={styles.contentIcon}>
-        <TouchableOpacity style={styles.containerIcon} activeOpacity={0.8}>
-          <Feather name="edit" size={16} color={COLORS.TEXT_COLOR[1]} />
-        </TouchableOpacity>
+        <EditTaks id={id} />
         <TouchableOpacity
           style={styles.containerIcon}
           activeOpacity={0.8}
@@ -110,7 +109,7 @@ const styles = StyleSheet.create({
   },
   containerButton: {
     backgroundColor: "#cf092a",
-    height: 30,
+    height: 40,
     width: 110,
     justifyContent: "center",
     alignItems: "center",

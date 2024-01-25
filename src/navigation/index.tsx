@@ -3,14 +3,17 @@ import { NavigationContainer } from "@react-navigation/native";
 import MainNavigation from "./main";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { ContextProvider } from "../context/contextProvider";
 
 export default function RootNavigation() {
   return (
-    <GestureRootProvider>
-      <NavigationContainer>
-        <MainNavigation />
-      </NavigationContainer>
-    </GestureRootProvider>
+    <ContextProvider>
+      <GestureRootProvider>
+        <NavigationContainer>
+          <MainNavigation />
+        </NavigationContainer>
+      </GestureRootProvider>
+    </ContextProvider>
   );
 }
 

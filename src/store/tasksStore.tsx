@@ -5,8 +5,8 @@ import axios from "axios";
 interface ITaskValue {
   title: string;
   description: string;
-  startDate: string;
-  finalDate: string;
+  startDate: string | Date;
+  finalDate: string | Date;
   done: boolean;
 }
 
@@ -19,6 +19,7 @@ type Action = {
   getAllTasks: () => void;
   addTasks: (values: ITaskValue) => void;
   deleteTask: (id: string) => void;
+  editTask: (id: string, values: ITaskValue) => void;
 };
 
 export const useTasksStore = create<State & Action>((set) => ({
@@ -57,6 +58,23 @@ export const useTasksStore = create<State & Action>((set) => ({
       set({ isLoading: true });
       await axios.delete(`http://10.0.2.2:5000/api/tasks/${id}`);
       set((state) => ({ tasks: state.tasks.filter((item) => item.id !== id) }));
+    } catch (error) {
+      console.log(error);
+    } finally {
+      set({ isLoading: false });
+    }
+  },
+
+  editTask: async (id: string, values: ITaskValue) => {
+    try {
+      set({ isLoading: true });
+      const { data } = await axios.put(
+        `http://10.0.2.2:5000/api/tasks/${id}`,
+        values
+      );
+      set((state) => ({
+        tasks: state.tasks.map((item) => (item.id === id ? data : item)),
+      }));
     } catch (error) {
       console.log(error);
     } finally {
