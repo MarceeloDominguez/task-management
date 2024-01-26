@@ -2,34 +2,48 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { COLORS } from "../../constants/colors";
+import { formatDate } from "../../helpers";
 
-export const Date = () => {
+type Props = {
+  startDate: Date;
+  finalDate: Date;
+};
+
+export const Date = ({ startDate, finalDate }: Props) => {
   return (
     <View>
       <View style={styles.container}>
         <View style={styles.wrapperItem}>
           <Text style={styles.title}>Inicio</Text>
-          <View style={styles.wrapperIcon}>
-            <Feather
-              name="calendar"
-              size={16}
-              color={COLORS.TEXT_COLOR[1]}
-              style={styles.icon}
-            />
-            <Text style={styles.date}>May 29 2024</Text>
-          </View>
+          {startDate ? (
+            <View style={styles.wrapperIcon}>
+              <Feather
+                name="calendar"
+                size={16}
+                color={COLORS.TEXT_COLOR[1]}
+                style={styles.icon}
+              />
+              <Text style={styles.date}>{formatDate(startDate)}</Text>
+            </View>
+          ) : (
+            <Text style={styles.date}>Sin especificar</Text>
+          )}
         </View>
         <View style={styles.wrapperItem}>
           <Text style={styles.title}>Final</Text>
-          <View style={styles.wrapperIcon}>
-            <Feather
-              name="calendar"
-              size={16}
-              color={COLORS.TEXT_COLOR[1]}
-              style={styles.icon}
-            />
-            <Text style={styles.date}>Jun 29 2024</Text>
-          </View>
+          {finalDate ? (
+            <View style={styles.wrapperIcon}>
+              <Feather
+                name="calendar"
+                size={16}
+                color={COLORS.TEXT_COLOR[1]}
+                style={styles.icon}
+              />
+              <Text style={styles.date}>{formatDate(finalDate)}</Text>
+            </View>
+          ) : (
+            <Text style={styles.date}>Sin especificar</Text>
+          )}
         </View>
       </View>
     </View>

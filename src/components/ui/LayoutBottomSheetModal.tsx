@@ -16,8 +16,7 @@ type Props = { children: React.ReactNode };
 export const LayoutBottomSheetModal = React.forwardRef<Ref, Props>(
   (props, ref) => {
     const snapPoints = React.useMemo(() => ["55%", "65%"], []);
-    const { setBottomSheetVisible, handleDismissbottomSheet } =
-      useContextProvider();
+    const { handleDismissbottomSheet } = useContextProvider();
 
     const animationConfigs = useBottomSheetSpringConfigs({
       damping: 80,

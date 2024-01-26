@@ -4,14 +4,16 @@ import CircularProgress from "react-native-circular-progress-indicator";
 import { COLORS } from "../../constants/colors";
 
 export default function CircleProgress() {
+  const value = 60;
+
   return (
     <View style={styles.container}>
       <CircularProgress
-        value={80}
+        value={value}
         radius={33}
         initialValue={100}
         valueSuffix={"%"}
-        duration={1500}
+        duration={800}
         progressValueColor={COLORS.TEXT_COLOR[1]}
         maxValue={100}
         activeStrokeColor={COLORS.SECONDARY[1]}

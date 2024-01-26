@@ -13,12 +13,8 @@ type Props = {
 };
 
 export default function EditTaks({ id }: Props) {
-  const {
-    getIdTask,
-    handlePresentBottomSheet,
-    handleDismissbottomSheet,
-    bottomSheetRef,
-  } = useContextProvider();
+  const { getIdTask, handlePresentBottomSheet, bottomSheetRef } =
+    useContextProvider();
 
   const handleTaskIdToEdit = (id: string) => {
     getIdTask(id);
@@ -37,7 +33,7 @@ export default function EditTaks({ id }: Props) {
         <Feather name="edit" size={16} color={COLORS.TEXT_COLOR[1]} />
       </TouchableOpacity>
       <LayoutBottomSheetModal ref={bottomSheetRef}>
-        <Form handleDismissbottomSheet={handleDismissbottomSheet} />
+        <Form />
       </LayoutBottomSheetModal>
     </>
   );

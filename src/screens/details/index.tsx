@@ -19,7 +19,8 @@ import { BottomSheetModal } from "@gorhom/bottom-sheet";
 type Props = NativeStackScreenProps<RootMainStackParamsList, "DetailsScreen">;
 
 export const DetailsScreen = ({ route }: Props) => {
-  const { backgroundColor } = route.params;
+  const { backgroundColor, item } = route.params;
+  const { title, description, startDate, finalDate } = item;
   const navigation = useNavigation<UseNavigation>();
   const bottomSheetRef = useRef<BottomSheetModal>(null);
 
@@ -36,12 +37,12 @@ export const DetailsScreen = ({ route }: Props) => {
     <View style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={[styles.contentCard, { backgroundColor }]}>
-          <Title title="Aliqua sit officia cupidatat ullamco quis sunt." />
-          <Date />
+          <Title title={title} />
+          <Date startDate={startDate} finalDate={finalDate} />
           <ShapeCard backgroundColor={backgroundColor} />
         </View>
         <View style={styles.contentScreen}>
-          <Description description="Officia minim anim consequat duis est velit ase e esr adtrw as excepteur irure sunt tempor nostrud in laborum.Cillum laborum incididunt et deserunt. Velit adipisicing cillum cupidatat excepteur aliquip ipsum officia consectetur ullamco sint cillum officia." />
+          <Description description={description} />
           <Progress backgroundColor={backgroundColor} />
           <SubTasks handlePresentModalPress={handlePresentModalPress} />
         </View>

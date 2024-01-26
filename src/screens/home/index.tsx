@@ -1,5 +1,12 @@
-import React, { useEffect } from "react";
-import { StyleSheet, FlatList, View, Dimensions, Image } from "react-native";
+import React, { useCallback, useEffect, useState } from "react";
+import {
+  StyleSheet,
+  FlatList,
+  View,
+  Dimensions,
+  Image,
+  RefreshControl,
+} from "react-native";
 import { COLORS } from "../../constants/colors";
 import { Input, TaskCard, ProgressTaskCard, Form } from "../../components/home";
 import FlotingButton from "../../components/ui/FlotingButton";
@@ -16,12 +23,24 @@ const COLORS_CARD = [COLORS.CARD[1], COLORS.CARD[2], COLORS.CARD[3]];
 
 export const HomeScreen = () => {
   const { tasks, getAllTasks, isLoading } = useTasksStore();
-  const { bottomSheetRef, handlePresentBottomSheet, handleDismissbottomSheet } =
-    useContextProvider();
+  const { bottomSheetRef, handlePresentBottomSheet } = useContextProvider();
+  const [refreshing, setRefreshing] = useState(false);
+
+  const fetchData = useCallback(() => {
+    getAllTasks();
+    setRefreshing(false);
+  }, [getAllTasks]);
 
   useEffect(() => {
-    getAllTasks();
+    fetchData();
+    setRefreshing(false);
   }, []);
+
+  const onRefresh = () => {
+    // Activas el indicador de carga y volver a obtener los items
+    setRefreshing(true);
+    fetchData();
+  };
 
   const ListHeaderComponent = () => {
     return (
@@ -58,6 +77,14 @@ export const HomeScreen = () => {
               </View>
             );
           }}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+              progressBackgroundColor={COLORS.SECONDARY[1]}
+              colors={[COLORS.TEXT_COLOR[1]]}
+            />
+          }
         />
       )}
       <FlotingButton
@@ -66,7 +93,7 @@ export const HomeScreen = () => {
         disabled={isLoading}
       />
       <LayoutBottomSheetModal ref={bottomSheetRef}>
-        <Form handleDismissbottomSheet={handleDismissbottomSheet} />
+        <Form />
       </LayoutBottomSheetModal>
     </View>
   );

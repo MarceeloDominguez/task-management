@@ -28,15 +28,15 @@ export const ContextProvider = ({ children }: Props) => {
   const bottomSheetRef = useRef<BottomSheetModal>(null);
 
   const handleDismissbottomSheet = () => {
+    bottomSheetRef.current?.dismiss();
     setBottomSheetVisible(false);
     setIdTask(null);
     setTaskToEdit(null);
-    bottomSheetRef.current?.dismiss();
   };
 
   const handlePresentBottomSheet = () => {
-    setBottomSheetVisible(true);
     bottomSheetRef.current?.present();
+    setBottomSheetVisible(true);
   };
 
   const getIdTask = (idTask: string) => {

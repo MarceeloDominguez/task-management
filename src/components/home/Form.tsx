@@ -13,18 +13,20 @@ import { useContextProvider } from "../../context/contextProvider";
 
 const { height } = Dimensions.get("window");
 
-type Props = {
-  handleDismissbottomSheet: () => void;
-};
-
-export const Form = ({ handleDismissbottomSheet }: Props) => {
+export const Form = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [selectDate, setSelectDate] = useState<string[]>([]);
   const [formData, setFormData] = useState({ task: "", description: "" });
   const [sent, setSent] = useState(false);
   const errors = validateForm(formData);
   const { addTasks, editTask } = useTasksStore();
-  const { taskToEdit, bottomSheetVisible, idTask } = useContextProvider();
+  const {
+    taskToEdit,
+    bottomSheetVisible,
+    idTask,
+    handleDismissbottomSheet,
+    bottomSheetRef,
+  } = useContextProvider();
 
   useEffect(() => {
     if (taskToEdit !== null) {
@@ -34,10 +36,10 @@ export const Form = ({ handleDismissbottomSheet }: Props) => {
       });
     }
 
-    // if (!bottomSheetVisible) {
-    //   setFormData({ task: "", description: "" });
-    //   setSent(false);
-    // }
+    if (!bottomSheetVisible) {
+      setFormData({ task: "", description: "" });
+      setSent(false);
+    }
   }, [bottomSheetVisible]);
 
   const sortedDates = selectDate.sort(compareDates);
@@ -50,9 +52,6 @@ export const Form = ({ handleDismissbottomSheet }: Props) => {
     setSent(true);
 
     if (!formData.task || !formData.description) return;
-
-    //cierre del bottom sheet
-    handleDismissbottomSheet();
 
     if (taskToEdit !== null) {
       editTask(idTask!, {
@@ -71,6 +70,10 @@ export const Form = ({ handleDismissbottomSheet }: Props) => {
         done: false,
       });
     }
+
+    //cierre del bottom sheet
+    handleDismissbottomSheet();
+    bottomSheetRef.current?.dismiss();
   };
 
   const handleApplyDate = () => {
