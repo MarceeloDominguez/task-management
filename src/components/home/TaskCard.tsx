@@ -8,6 +8,7 @@ import { UseNavigation } from "../../navigation/type";
 import { ITasks } from "../../interface/tasks";
 import EditTaks from "./EditTaks";
 import DeleteTask from "./DeleteTask";
+import { useContextProvider } from "../../context/contextProvider";
 
 type Props = {
   item: ITasks;
@@ -16,7 +17,12 @@ type Props = {
 
 export const TaskCard = ({ item, backgroundColor }: Props) => {
   const navigation = useNavigation<UseNavigation>();
+  const { getIdTask } = useContextProvider();
   const { title, description, id } = item;
+
+  const handleTaskIdToEdit = (id: string) => {
+    getIdTask(id);
+  };
 
   return (
     <View>
@@ -27,9 +33,10 @@ export const TaskCard = ({ item, backgroundColor }: Props) => {
       <TouchableOpacity
         style={styles.contentBottomCard}
         activeOpacity={0.8}
-        onPress={() =>
-          navigation.navigate("DetailsScreen", { backgroundColor, item })
-        }
+        onPress={() => {
+          navigation.navigate("DetailsScreen", { backgroundColor, item });
+          handleTaskIdToEdit(id);
+        }}
       >
         <View style={styles.wrapperText}>
           <TextComponent

@@ -26,6 +26,7 @@ export const Form = () => {
     idTask,
     handleDismissbottomSheet,
     bottomSheetRef,
+    taskCompleted,
   } = useContextProvider();
 
   useEffect(() => {
@@ -59,7 +60,7 @@ export const Form = () => {
         description: formData.description,
         startDate: sortedDates[0] ? sortedDates[0] : taskToEdit.startDate,
         finalDate: selectDate[1] ? sortedDates[1] : taskToEdit.finalDate,
-        done: false,
+        done: taskCompleted,
       });
     } else {
       addTasks({

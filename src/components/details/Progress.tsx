@@ -3,12 +3,17 @@ import { View, Text, StyleSheet } from "react-native";
 import { COLORS } from "../../constants/colors";
 import ProgressBar from "../ui/ProgressBar";
 import TextComponent from "../ui/TextComponent";
+import { useContextProvider } from "../../context/contextProvider";
+import { useTasksStore } from "../../store/tasksStore";
 
 type Props = {
   backgroundColor: string;
 };
 
 export const Progress = ({ backgroundColor }: Props) => {
+  const { taskCompleted } = useContextProvider();
+  const { isLoading } = useTasksStore();
+
   return (
     <View>
       <View style={styles.containerLabel}>
@@ -22,11 +27,11 @@ export const Progress = ({ backgroundColor }: Props) => {
           <ProgressBar
             heightActiveBar={10}
             heightInactiveBar={8}
-            BackgroundColorBarActive={backgroundColor}
+            backgroundColorBarActive={backgroundColor}
           />
         </View>
         <TextComponent
-          text="70%"
+          text={taskCompleted && !isLoading ? "100%" : "0%"}
           color={COLORS.TEXT_COLOR[1]}
           fontSize={15}
           fontFamily="PoppinsBold"

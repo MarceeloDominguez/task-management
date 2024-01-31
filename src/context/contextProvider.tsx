@@ -16,16 +16,21 @@ interface AppContextProvider {
   handlePresentBottomSheet: () => void;
   handleDismissbottomSheet: () => void;
   bottomSheetRef: React.RefObject<BottomSheetModal>;
+  setTaskCompleted: React.Dispatch<React.SetStateAction<boolean>>;
+  taskCompleted: boolean;
 }
 
 const GlobalContext = createContext({} as AppContextProvider);
 
 export const ContextProvider = ({ children }: Props) => {
   const { tasks } = useTasksStore();
+  const [taskCompleted, setTaskCompleted] = useState(false);
   const [taskToEdit, setTaskToEdit] = useState<ITasks | null>(null);
   const [idTask, setIdTask] = useState<string | null>(null);
   const [bottomSheetVisible, setBottomSheetVisible] = useState(false);
   const bottomSheetRef = useRef<BottomSheetModal>(null);
+
+  console.log(taskCompleted, "en el context");
 
   const handleDismissbottomSheet = () => {
     bottomSheetRef.current?.dismiss();
@@ -56,6 +61,8 @@ export const ContextProvider = ({ children }: Props) => {
         handlePresentBottomSheet,
         handleDismissbottomSheet,
         bottomSheetRef,
+        setTaskCompleted,
+        taskCompleted,
       }}
     >
       {children}

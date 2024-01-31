@@ -17,7 +17,7 @@ export const SubTasks = ({ handlePresentModalPress }: Props) => {
         color={COLORS.TEXT_COLOR[1]}
         fontFamily="PoppinsSemiBold"
       />
-      {[...Array(8)].map((item, index) => (
+      {[...Array(2)].map((item, index) => (
         <View key={index} style={styles.containerCardTask}>
           <TouchableOpacity activeOpacity={0.8} style={styles.contentTask}>
             <View style={styles.contentIconLeft}>
