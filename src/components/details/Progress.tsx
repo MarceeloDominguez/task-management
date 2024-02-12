@@ -8,9 +8,10 @@ import { useTasksStore } from "../../store/tasksStore";
 
 type Props = {
   backgroundColor: string;
+  done?: boolean;
 };
 
-export const Progress = ({ backgroundColor }: Props) => {
+export const Progress = ({ backgroundColor, done }: Props) => {
   const { taskCompleted } = useContextProvider();
   const { isLoading } = useTasksStore();
 
@@ -28,6 +29,7 @@ export const Progress = ({ backgroundColor }: Props) => {
             heightActiveBar={10}
             heightInactiveBar={8}
             backgroundColorBarActive={backgroundColor}
+            done={done}
           />
         </View>
         <TextComponent

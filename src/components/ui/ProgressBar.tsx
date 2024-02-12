@@ -5,7 +5,6 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
-import { useContextProvider } from "../../context/contextProvider";
 import { useTasksStore } from "../../store/tasksStore";
 
 type Props = {
@@ -13,6 +12,7 @@ type Props = {
   heightInactiveBar?: number;
   backgroundColorBarInactive?: string;
   backgroundColorBarActive?: string;
+  done?: boolean;
 };
 
 export default function ProgressBar({
@@ -20,21 +20,21 @@ export default function ProgressBar({
   heightInactiveBar = 6,
   backgroundColorBarInactive = "#3c444a",
   backgroundColorBarActive = "#3168e0",
+  done,
 }: Props) {
-  const { taskCompleted } = useContextProvider();
   const { isLoading } = useTasksStore();
   const [subTask, setSubTask] = useState<
     { subtask: string; completed: boolean }[]
   >([
     { subtask: "Hola 2", completed: true },
-    { subtask: "Hola 3", completed: false },
+    { subtask: "Hola 3", completed: true },
   ]);
 
   useEffect(() => {
     if (!isLoading) {
-      percentageWidth.value = taskCompleted ? percentage : 0;
+      percentageWidth.value = done || subTask.length > 0 ? percentage : 0;
     }
-  }, [isLoading, taskCompleted]);
+  }, [isLoading, done]);
 
   const percentageWidth = useSharedValue(0);
 

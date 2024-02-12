@@ -18,7 +18,7 @@ type Props = {
 export const TaskCard = ({ item, backgroundColor }: Props) => {
   const navigation = useNavigation<UseNavigation>();
   const { getIdTask } = useContextProvider();
-  const { title, description, id } = item;
+  const { title, description, id, done } = item;
 
   const handleTaskIdToEdit = (id: string) => {
     getIdTask(id);
@@ -51,7 +51,7 @@ export const TaskCard = ({ item, backgroundColor }: Props) => {
             color={COLORS.TEXT_COLOR[1]}
           />
         </View>
-        <ProgressBarItemCard />
+        <ProgressBarItemCard done={done} />
       </TouchableOpacity>
     </View>
   );

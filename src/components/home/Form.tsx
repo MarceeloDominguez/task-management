@@ -5,6 +5,7 @@ import LabelTextInput from "../ui/LabelTextInput";
 import CustomButton from "../ui/CustomButton";
 import LayoutModalCalendar from "./LayoutModalCalendar";
 import CustomCalendar from "./CustomCalendar";
+import CompletedTask from "./CompletedTask";
 import { COLORS } from "../../constants/colors";
 import { useTasksStore } from "../../store/tasksStore";
 import { compareDates, formatDate, validateForm } from "../../helpers";
@@ -17,6 +18,7 @@ export const Form = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [selectDate, setSelectDate] = useState<string[]>([]);
   const [formData, setFormData] = useState({ task: "", description: "" });
+  const [taskCompleted, setTaskCompleted] = useState(false);
   const [sent, setSent] = useState(false);
   const errors = validateForm(formData);
   const { addTasks, editTask } = useTasksStore();
@@ -26,7 +28,6 @@ export const Form = () => {
     idTask,
     handleDismissbottomSheet,
     bottomSheetRef,
-    taskCompleted,
   } = useContextProvider();
 
   useEffect(() => {
@@ -35,6 +36,7 @@ export const Form = () => {
         task: taskToEdit.title,
         description: taskToEdit.description,
       });
+      setTaskCompleted(taskToEdit.done);
     }
 
     if (!bottomSheetVisible) {
@@ -75,6 +77,10 @@ export const Form = () => {
     //cierre del bottom sheet
     handleDismissbottomSheet();
     bottomSheetRef.current?.dismiss();
+  };
+
+  const handleToggleCompletedAndSave = () => {
+    setTaskCompleted(!taskCompleted);
   };
 
   const handleApplyDate = () => {
@@ -174,9 +180,14 @@ export const Form = () => {
           </CustomButton>
         </View>
       </View>
+      <CompletedTask
+        handleToggleCompletedAndSave={handleToggleCompletedAndSave}
+        taskCompleted={taskCompleted}
+      />
       <CustomButton
         buttonTitle={taskToEdit !== null ? "Editar" : "Agregar"}
         onPress={handleFormSubmit}
+        additionalStyles={{ marginTop: height > 592 ? 40 : 30 }}
       />
       {/* modal para seleccionar las fechas */}
       <LayoutModalCalendar
@@ -214,7 +225,6 @@ const styles = StyleSheet.create({
   wrapperButtonDate: {
     flexDirection: "row",
     gap: 12,
-    marginBottom: height > 592 ? 50 : 30,
     marginTop: 8,
     justifyContent: "space-between",
   },

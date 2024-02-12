@@ -4,10 +4,14 @@ import ProgressBar from "../ui/ProgressBar";
 import TextComponent from "../ui/TextComponent";
 import { COLORS } from "../../constants/colors";
 
-export default function ProgressBarItemCard() {
+type Props = {
+  done: boolean;
+};
+
+export default function ProgressBarItemCard({ done }: Props) {
   return (
     <View>
-      <ProgressBar />
+      <ProgressBar done={done} />
       <View style={styles.wrapperTextBarProgress}>
         <TextComponent
           text="Progreso"
