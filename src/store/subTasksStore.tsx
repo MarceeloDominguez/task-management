@@ -17,6 +17,7 @@ type Action = {
   getSubTasksById: (id: string) => void;
   addSubTasks: (values: ISubTaskValue) => void;
   deleteSubTask: (id: string) => void;
+  editSubTask: (id: string, values: ISubTaskValue) => void;
 };
 
 export const useSubTasksStore = create<State & Action>((set) => ({
@@ -58,6 +59,23 @@ export const useSubTasksStore = create<State & Action>((set) => ({
       await axios.delete(`http://10.0.2.2:5000/api/subtasks/${id}`);
       set((state) => ({
         subTasks: state.subTasks.filter((item) => item.id !== id),
+      }));
+    } catch (error) {
+      console.log(error);
+    } finally {
+      set({ isLoading: false });
+    }
+  },
+
+  editSubTask: async (id: string, values: ISubTaskValue) => {
+    try {
+      set({ isLoading: true });
+      const { data } = await axios.put(
+        `http://10.0.2.2:5000/api/subtasks/${id}`,
+        values
+      );
+      set((state) => ({
+        subTasks: state.subTasks.map((item) => (item.id === id ? data : item)),
       }));
     } catch (error) {
       console.log(error);

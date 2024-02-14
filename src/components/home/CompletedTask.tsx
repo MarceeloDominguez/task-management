@@ -20,6 +20,7 @@ export default function CompletedTask({
         <TouchableOpacity
           onPress={handleToggleCompletedAndSave}
           style={styles.container}
+          activeOpacity={0.7}
         >
           <View
             style={[

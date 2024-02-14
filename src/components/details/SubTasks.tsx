@@ -5,6 +5,7 @@ import { COLORS } from "../../constants/colors";
 import { useSubTasksStore } from "../../store/subTasksStore";
 import SubTask from "./SubTask";
 import Loading from "../ui/Loading";
+import { compareCompleted } from "../../helpers/compareCompleted";
 
 type Props = {
   id: string;
@@ -19,6 +20,8 @@ export const SubTasks = ({ id }: Props) => {
 
   if (isLoading) return <Loading />;
 
+  const sortedSubtasks = [...subTasks].sort(compareCompleted);
+
   return (
     <View style={styles.container}>
       <TextComponent
@@ -27,7 +30,7 @@ export const SubTasks = ({ id }: Props) => {
         color={COLORS.TEXT_COLOR[1]}
         fontFamily="PoppinsSemiBold"
       />
-      {subTasks.map((item, index) => (
+      {sortedSubtasks.map((item, index) => (
         <SubTask key={index} item={item} />
       ))}
     </View>

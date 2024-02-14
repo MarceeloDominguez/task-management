@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { COLORS } from "../../constants/colors";
@@ -6,28 +6,40 @@ import TextComponent from "../ui/TextComponent";
 import { CustomBottomSheet } from "../ui/CustomBottomSheet";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { useSubTasksStore } from "../../store/subTasksStore";
-
-interface ISubTask {
-  done: boolean;
-  description: string;
-  id?: string;
-}
+import { ISubTask } from "../../interface/subtask";
+import ModalEditSubTask from "./ModalEditSubTask";
+import { useContextSubTask } from "../../context/contextSubTasks";
 
 type Props = {
   item: ISubTask;
 };
 
 export default function SubTask({ item }: Props) {
-  const { deleteSubTask } = useSubTasksStore();
+  const [subtaskCompleted, setSubtaskCompleted] = useState(item.done);
+  const { handlePresentBottomSheet, getIdSubTask } = useContextSubTask();
+  const { deleteSubTask, editSubTask } = useSubTasksStore();
   const bottomSheetRef = useRef<BottomSheetModal>(null);
   const handlePresentModalPress = () => bottomSheetRef.current?.present();
+
+  const handleToggleCompleteAndSave = () => {
+    const newSubTaskCompleted = !subtaskCompleted;
+    setSubtaskCompleted(newSubTaskCompleted);
+    sendToBackend(newSubTaskCompleted);
+  };
+
+  const sendToBackend = (newSubTaskCompleted: boolean) => {
+    editSubTask(item.id!, {
+      ...item,
+      done: newSubTaskCompleted,
+    });
+  };
 
   return (
     <View style={styles.containerCardTask}>
       <TouchableOpacity
         activeOpacity={0.8}
         style={styles.contentTask}
-        onPress={() => console.log("Click en el item")}
+        onPress={() => handleToggleCompleteAndSave()}
       >
         <View
           style={[
@@ -59,21 +71,34 @@ export default function SubTask({ item }: Props) {
         size={20}
         color={COLORS.TEXT_COLOR[1]}
         style={styles.iconRight}
-        onPress={handlePresentModalPress}
+        onPress={() => {
+          handlePresentModalPress();
+          getIdSubTask(item.id!);
+        }}
       />
       <CustomBottomSheet ref={bottomSheetRef}>
-        <View>
-          <Text style={styles.titleBottomSheet}>
-            ¿Estás seguro de que deseas eliminar esta subtarea?
-          </Text>
+        <Text style={styles.titleBottomSheet}>
+          ¿Deseas eliminar o editar la subtarea?
+        </Text>
+        <View style={styles.wrapperButtons}>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            style={styles.containerButton}
+            onPress={() => deleteSubTask(item.id!)}
+          >
+            <Text style={styles.titleButton}>Eliminar</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            style={[
+              styles.containerButton,
+              { backgroundColor: COLORS.SECONDARY[1] },
+            ]}
+            onPress={handlePresentBottomSheet}
+          >
+            <Text style={styles.titleButton}>Editar</Text>
+          </TouchableOpacity>
         </View>
-        <TouchableOpacity
-          activeOpacity={0.8}
-          style={styles.containerButton}
-          onPress={() => deleteSubTask(item.id!)}
-        >
-          <Text style={styles.titleButton}>Eliminar</Text>
-        </TouchableOpacity>
       </CustomBottomSheet>
     </View>
   );
@@ -117,6 +142,12 @@ const styles = StyleSheet.create({
     fontFamily: "PoppinsBold",
     fontSize: 13,
     marginVertical: 10,
+    textAlign: "center",
+  },
+  wrapperButtons: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 5,
   },
   containerButton: {
     backgroundColor: "#cf092a",
@@ -125,7 +156,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 10,
-    marginTop: 5,
   },
   titleButton: {
     color: COLORS.TEXT_COLOR[1],
@@ -133,4 +163,10 @@ const styles = StyleSheet.create({
     fontSize: 12,
     letterSpacing: 0.3,
   },
+  // wrapperChildren: {
+  //   backgroundColor: "rgba(28, 28, 28, 0.6)",
+  //   flex: 1,
+  //   justifyContent: "center",
+  //   alignItems: "center",
+  // },
 });
