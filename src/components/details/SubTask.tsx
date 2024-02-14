@@ -1,20 +1,27 @@
-import React from "react";
-import { View, StyleSheet, TouchableOpacity } from "react-native";
+import React, { useRef } from "react";
+import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { COLORS } from "../../constants/colors";
 import TextComponent from "../ui/TextComponent";
+import { CustomBottomSheet } from "../ui/CustomBottomSheet";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import { useSubTasksStore } from "../../store/subTasksStore";
 
 interface ISubTask {
   done: boolean;
   description: string;
+  id?: string;
 }
 
 type Props = {
   item: ISubTask;
-  handlePresentModalPress: () => void;
 };
 
-export default function SubTask({ item, handlePresentModalPress }: Props) {
+export default function SubTask({ item }: Props) {
+  const { deleteSubTask } = useSubTasksStore();
+  const bottomSheetRef = useRef<BottomSheetModal>(null);
+  const handlePresentModalPress = () => bottomSheetRef.current?.present();
+
   return (
     <View style={styles.containerCardTask}>
       <TouchableOpacity
@@ -54,6 +61,20 @@ export default function SubTask({ item, handlePresentModalPress }: Props) {
         style={styles.iconRight}
         onPress={handlePresentModalPress}
       />
+      <CustomBottomSheet ref={bottomSheetRef}>
+        <View>
+          <Text style={styles.titleBottomSheet}>
+            ¿Estás seguro de que deseas eliminar esta subtarea?
+          </Text>
+        </View>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          style={styles.containerButton}
+          onPress={() => deleteSubTask(item.id!)}
+        >
+          <Text style={styles.titleButton}>Eliminar</Text>
+        </TouchableOpacity>
+      </CustomBottomSheet>
     </View>
   );
 }
@@ -90,5 +111,26 @@ const styles = StyleSheet.create({
     height: "100%",
     textAlignVertical: "center",
     opacity: 0.7,
+  },
+  titleBottomSheet: {
+    color: COLORS.TEXT_COLOR[1],
+    fontFamily: "PoppinsBold",
+    fontSize: 13,
+    marginVertical: 10,
+  },
+  containerButton: {
+    backgroundColor: "#cf092a",
+    height: 40,
+    width: 110,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 10,
+    marginTop: 5,
+  },
+  titleButton: {
+    color: COLORS.TEXT_COLOR[1],
+    fontFamily: "PoppinsSemiBold",
+    fontSize: 12,
+    letterSpacing: 0.3,
   },
 });

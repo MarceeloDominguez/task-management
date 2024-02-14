@@ -4,6 +4,8 @@ import { create } from "zustand";
 interface ISubTaskValue {
   description: string;
   done: boolean;
+  taskId: string;
+  id?: string;
 }
 
 type State = {
@@ -13,17 +15,21 @@ type State = {
 
 type Action = {
   getSubTasksById: (id: string) => void;
-  addSubTasks: () => void;
+  addSubTasks: (values: ISubTaskValue) => void;
+  deleteSubTask: (id: string) => void;
 };
 
 export const useSubTasksStore = create<State & Action>((set) => ({
   subTasks: [],
   isLoading: true,
 
-  addSubTasks: async () => {
+  addSubTasks: async (values: ISubTaskValue) => {
     try {
       set({ isLoading: true });
-      const { data } = await axios.post("http://10.0.2.2:5000/api/subtasks/");
+      const { data } = await axios.post(
+        "http://10.0.2.2:5000/api/subtasks/",
+        values
+      );
       set((state) => ({ subTasks: [...state.subTasks, data] }));
     } catch (error) {
       console.log(error);
@@ -39,6 +45,20 @@ export const useSubTasksStore = create<State & Action>((set) => ({
         `http://10.0.2.2:5000/api/tasks/${id}/subtasks/`
       );
       set({ subTasks: data });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      set({ isLoading: false });
+    }
+  },
+
+  deleteSubTask: async (id: string) => {
+    try {
+      set({ isLoading: true });
+      await axios.delete(`http://10.0.2.2:5000/api/subtasks/${id}`);
+      set((state) => ({
+        subTasks: state.subTasks.filter((item) => item.id !== id),
+      }));
     } catch (error) {
       console.log(error);
     } finally {

@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from "react";
-import { View, StyleSheet, ScrollView, Text } from "react-native";
+import React, { useEffect } from "react";
+import { View, StyleSheet, ScrollView } from "react-native";
 import {
   Date,
   Description,
@@ -12,8 +12,6 @@ import { useNavigation } from "@react-navigation/native";
 import { RootMainStackParamsList, UseNavigation } from "../../navigation/type";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { COLORS } from "../../constants/colors";
-import { CustomBottomSheet } from "../../components/ui/CustomBottomSheet";
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import OpenFormSubTasks from "../../components/details/OpenFormSubTasks";
 
 type Props = NativeStackScreenProps<RootMainStackParamsList, "DetailsScreen">;
@@ -22,16 +20,12 @@ export const DetailsScreen = ({ route }: Props) => {
   const { backgroundColor, item } = route.params;
   const { title, description, startDate, finalDate, id } = item;
   const navigation = useNavigation<UseNavigation>();
-  const bottomSheetRef = useRef<BottomSheetModal>(null);
 
   useEffect(() => {
     navigation.setOptions({
       headerStyle: { backgroundColor },
     });
   }, []);
-
-  const handlePresentModalPress = () => bottomSheetRef.current?.present();
-  //const handleDismissModalPress = () => bottomSheetRef.current?.dismiss();
 
   return (
     <View style={styles.container}>
@@ -44,13 +38,10 @@ export const DetailsScreen = ({ route }: Props) => {
         <View style={styles.contentScreen}>
           <Description description={description} />
           <Progress backgroundColor={backgroundColor} done={item.done} />
-          <SubTasks handlePresentModalPress={handlePresentModalPress} id={id} />
+          <SubTasks id={id} />
         </View>
       </ScrollView>
-      <OpenFormSubTasks />
-      <CustomBottomSheet ref={bottomSheetRef}>
-        <Text>Hola desde detalles</Text>
-      </CustomBottomSheet>
+      <OpenFormSubTasks id={id} />
     </View>
   );
 };

@@ -4,18 +4,20 @@ import TextComponent from "../ui/TextComponent";
 import { COLORS } from "../../constants/colors";
 import { useSubTasksStore } from "../../store/subTasksStore";
 import SubTask from "./SubTask";
+import Loading from "../ui/Loading";
 
 type Props = {
-  handlePresentModalPress: () => void;
   id: string;
 };
 
-export const SubTasks = ({ handlePresentModalPress, id }: Props) => {
-  const { getSubTasksById, subTasks } = useSubTasksStore();
+export const SubTasks = ({ id }: Props) => {
+  const { getSubTasksById, subTasks, isLoading } = useSubTasksStore();
 
   useEffect(() => {
     getSubTasksById(id);
   }, []);
+
+  if (isLoading) return <Loading />;
 
   return (
     <View style={styles.container}>
@@ -26,11 +28,7 @@ export const SubTasks = ({ handlePresentModalPress, id }: Props) => {
         fontFamily="PoppinsSemiBold"
       />
       {subTasks.map((item, index) => (
-        <SubTask
-          key={index}
-          item={item}
-          handlePresentModalPress={handlePresentModalPress}
-        />
+        <SubTask key={index} item={item} />
       ))}
     </View>
   );

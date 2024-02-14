@@ -23,7 +23,8 @@ const COLORS_CARD = [COLORS.CARD[1], COLORS.CARD[2], COLORS.CARD[3]];
 
 export const HomeScreen = () => {
   const { tasks, getAllTasks, isLoading } = useTasksStore();
-  const { bottomSheetRef, handlePresentBottomSheet } = useContextProvider();
+  const { bottomSheetRef, handlePresentBottomSheet, handleDismissbottomSheet } =
+    useContextProvider();
   const [refreshing, setRefreshing] = useState(false);
 
   const fetchData = useCallback(() => {
@@ -92,7 +93,10 @@ export const HomeScreen = () => {
         onPress={handlePresentBottomSheet}
         disabled={isLoading}
       />
-      <LayoutBottomSheetModal ref={bottomSheetRef}>
+      <LayoutBottomSheetModal
+        ref={bottomSheetRef}
+        onDismiss={handleDismissbottomSheet}
+      >
         <Form />
       </LayoutBottomSheetModal>
     </View>

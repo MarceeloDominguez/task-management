@@ -8,16 +8,13 @@ import {
   useBottomSheetSpringConfigs,
 } from "@gorhom/bottom-sheet";
 import { COLORS } from "../../constants/colors";
-import { useContextProvider } from "../../context/contextProvider";
 
 type Ref = BottomSheetModal;
-type Props = { children: React.ReactNode };
+type Props = { children: React.ReactNode; onDismiss?: () => void };
 
 export const LayoutBottomSheetModal = React.forwardRef<Ref, Props>(
   (props, ref) => {
     const snapPoints = React.useMemo(() => ["55%", "65%"], []);
-    const { handleDismissbottomSheet } = useContextProvider();
-
     const animationConfigs = useBottomSheetSpringConfigs({
       damping: 80,
       overshootClamping: true,
@@ -39,7 +36,7 @@ export const LayoutBottomSheetModal = React.forwardRef<Ref, Props>(
 
     return (
       <BottomSheetModal
-        onDismiss={handleDismissbottomSheet}
+        onDismiss={props.onDismiss}
         ref={ref}
         index={1}
         snapPoints={snapPoints}

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { View, StyleSheet } from "react-native";
 import FlotingButton from "../ui/FlotingButton";
 import { LayoutBottomSheetModal } from "../ui/LayoutBottomSheetModal";
@@ -6,14 +6,46 @@ import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import CustomTextInput from "../ui/CustomTextInput";
 import LabelTextInput from "../ui/LabelTextInput";
 import CustomButton from "../ui/CustomButton";
+import { useSubTasksStore } from "../../store/subTasksStore";
 
-export default function OpenFormSubTasks() {
+type Props = {
+  id: string;
+};
+
+export default function OpenFormSubTasks({ id }: Props) {
+  const [bottomSheetVisible, setBottomSheetVisible] = useState(false);
   const [descriptionSubTask, setDescriptionSubTask] = useState("");
+  const { addSubTasks, isLoading } = useSubTasksStore();
   const bottomSheetRef = useRef<BottomSheetModal>(null);
-  const handlePresentBottomSheet = () => bottomSheetRef.current?.present();
+
+  useEffect(() => {
+    if (!bottomSheetVisible) {
+      setDescriptionSubTask("");
+    }
+  }, [bottomSheetVisible]);
+
+  const handlePresentBottomSheet = () => {
+    bottomSheetRef.current?.present();
+    setBottomSheetVisible(true);
+  };
+  const handleDismissBottomSheet = () => {
+    bottomSheetRef.current?.dismiss();
+    setBottomSheetVisible(false);
+  };
 
   const handleFormSubmit = () => {
-    console.log("submit...");
+    if (!descriptionSubTask) return;
+
+    addSubTasks({
+      description: descriptionSubTask,
+      done: false,
+      taskId: id,
+    });
+
+    setDescriptionSubTask("");
+
+    handleDismissBottomSheet();
+    bottomSheetRef.current?.dismiss();
   };
 
   return (
@@ -21,8 +53,12 @@ export default function OpenFormSubTasks() {
       <FlotingButton
         title="Agregar sub tareas"
         onPress={handlePresentBottomSheet}
+        disabled={isLoading}
       />
-      <LayoutBottomSheetModal ref={bottomSheetRef}>
+      <LayoutBottomSheetModal
+        ref={bottomSheetRef}
+        onDismiss={handleDismissBottomSheet}
+      >
         <View style={styles.container}>
           <LabelTextInput label="SubTarea" />
           <CustomTextInput
