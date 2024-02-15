@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { COLORS } from "../../constants/colors";
@@ -7,7 +7,6 @@ import { CustomBottomSheet } from "../ui/CustomBottomSheet";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { useSubTasksStore } from "../../store/subTasksStore";
 import { ISubTask } from "../../interface/subtask";
-import ModalEditSubTask from "./ModalEditSubTask";
 import { useContextSubTask } from "../../context/contextSubTasks";
 
 type Props = {
@@ -19,7 +18,10 @@ export default function SubTask({ item }: Props) {
   const { handlePresentBottomSheet, getIdSubTask } = useContextSubTask();
   const { deleteSubTask, editSubTask } = useSubTasksStore();
   const bottomSheetRef = useRef<BottomSheetModal>(null);
-  const handlePresentModalPress = () => bottomSheetRef.current?.present();
+
+  const handlePresentModalPress = useCallback(() => {
+    bottomSheetRef.current?.present();
+  }, []);
 
   const handleToggleCompleteAndSave = () => {
     const newSubTaskCompleted = !subtaskCompleted;
@@ -78,16 +80,9 @@ export default function SubTask({ item }: Props) {
       />
       <CustomBottomSheet ref={bottomSheetRef}>
         <Text style={styles.titleBottomSheet}>
-          ¿Deseas eliminar o editar la subtarea?
+          ¿Deseas editar o eliminar la subtarea?
         </Text>
         <View style={styles.wrapperButtons}>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            style={styles.containerButton}
-            onPress={() => deleteSubTask(item.id!)}
-          >
-            <Text style={styles.titleButton}>Eliminar</Text>
-          </TouchableOpacity>
           <TouchableOpacity
             activeOpacity={0.8}
             style={[
@@ -97,6 +92,13 @@ export default function SubTask({ item }: Props) {
             onPress={handlePresentBottomSheet}
           >
             <Text style={styles.titleButton}>Editar</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            style={styles.containerButton}
+            onPress={() => deleteSubTask(item.id!)}
+          >
+            <Text style={styles.titleButton}>Eliminar</Text>
           </TouchableOpacity>
         </View>
       </CustomBottomSheet>

@@ -1,5 +1,5 @@
 import React, { forwardRef, useCallback } from "react";
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import {
   BottomSheetBackdrop,
   BottomSheetBackdropProps,

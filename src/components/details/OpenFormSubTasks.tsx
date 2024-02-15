@@ -7,6 +7,7 @@ import LabelTextInput from "../ui/LabelTextInput";
 import CustomButton from "../ui/CustomButton";
 import { useSubTasksStore } from "../../store/subTasksStore";
 import { useContextSubTask } from "../../context/contextSubTasks";
+import { COLORS } from "../../constants/colors";
 
 type Props = {
   id: string;
@@ -14,6 +15,7 @@ type Props = {
 
 export default function OpenFormSubTasks({ id }: Props) {
   const [descriptionSubTask, setDescriptionSubTask] = useState("");
+  const [sent, setSent] = useState(false);
   const { addSubTasks, editSubTask, isLoading } = useSubTasksStore();
   const {
     bottomSheetVisible,
@@ -33,10 +35,21 @@ export default function OpenFormSubTasks({ id }: Props) {
   useEffect(() => {
     if (!bottomSheetVisible) {
       setDescriptionSubTask("");
+      setSent(false);
     }
   }, [bottomSheetVisible]);
 
+  const errors = {
+    errorDescriptionSubTask: false,
+  };
+
+  if (!descriptionSubTask) {
+    errors.errorDescriptionSubTask = true;
+  }
+
   const handleFormSubmit = () => {
+    setSent(true);
+
     if (!descriptionSubTask) return;
 
     if (subTaskToEdit !== null) {
@@ -71,15 +84,26 @@ export default function OpenFormSubTasks({ id }: Props) {
         onDismiss={handleDismissBottomSheet}
       >
         <View style={styles.container}>
-          <LabelTextInput label="SubTarea" />
+          <LabelTextInput
+            label="SubTarea"
+            error={errors.errorDescriptionSubTask}
+            sent={sent}
+          />
           <CustomTextInput
-            placeholder="Escriba una subtarea"
+            placeholder="¿Cuál es tu próxima subtarea?"
             value={descriptionSubTask}
             onChangeText={(value) => setDescriptionSubTask(value)}
+            additionalStyles={{
+              borderWidth: 1,
+              borderColor:
+                errors.errorDescriptionSubTask && sent
+                  ? COLORS.ERROR[1]
+                  : "transparent",
+            }}
           />
           <CustomButton
             buttonTitle={subTaskToEdit !== null ? "Editar" : "Agregar"}
-            additionalStyles={{ marginTop: 40 }}
+            additionalStyles={{ marginTop: 10 }}
             onPress={handleFormSubmit}
           />
         </View>
