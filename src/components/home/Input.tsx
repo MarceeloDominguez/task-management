@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 12,
     alignItems: "center",
-    marginTop: 12,
+    marginTop: 6,
   },
   placeholderText: {
     color: COLORS.TEXT_COLOR[2],

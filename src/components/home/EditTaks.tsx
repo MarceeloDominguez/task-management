@@ -41,11 +41,11 @@ export default function EditTaks({ id }: Props) {
 
 const styles = StyleSheet.create({
   containerIcon: {
-    backgroundColor: "rgba(60, 60, 60, 0.5)",
+    backgroundColor: "rgba(60, 60, 60, 0.2)",
     width: size_container_icon,
     height: size_container_icon,
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: size_container_icon / 2,
+    borderRadius: 6,
   },
 });

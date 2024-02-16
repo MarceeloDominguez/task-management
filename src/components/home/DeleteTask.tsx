@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useCallback, useRef } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { COLORS } from "../../constants/colors";
 import { Feather } from "@expo/vector-icons";
@@ -16,7 +16,9 @@ export default function DeleteTask({ id }: Props) {
   const bottomSheetRef = useRef<BottomSheetModal>(null);
   const { deleteTask } = useTasksStore();
 
-  const handlePresentBottomSheet = () => bottomSheetRef.current?.present();
+  const handlePresentBottomSheet = useCallback(() => {
+    bottomSheetRef.current?.present();
+  }, []);
 
   return (
     <View>
@@ -47,12 +49,12 @@ export default function DeleteTask({ id }: Props) {
 
 const styles = StyleSheet.create({
   containerIcon: {
-    backgroundColor: "rgba(60, 60, 60, 0.5)",
+    backgroundColor: "rgba(60, 60, 60, 0.2)",
     width: size_container_icon,
     height: size_container_icon,
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: size_container_icon / 2,
+    borderRadius: 6,
   },
   titleBottomSheet: {
     color: COLORS.TEXT_COLOR[1],
