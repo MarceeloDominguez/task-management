@@ -6,9 +6,13 @@ import { COLORS } from "../../constants/colors";
 
 type Props = {
   done: boolean;
+  percentageTaskCompleted: string;
 };
 
-export default function ProgressBarItemCard({ done }: Props) {
+export default function ProgressBarItemCard({
+  done,
+  percentageTaskCompleted,
+}: Props) {
   return (
     <View>
       <ProgressBar done={done} />
@@ -20,7 +24,8 @@ export default function ProgressBarItemCard({ done }: Props) {
           fontFamily="PoppinsSemiBold"
         />
         <TextComponent
-          text="40%"
+          //text={done ? "100%" : "0%"}
+          text={`${percentageTaskCompleted}%`}
           color={COLORS.TEXT_COLOR[1]}
           fontSize={13}
           fontFamily="PoppinsSemiBold"

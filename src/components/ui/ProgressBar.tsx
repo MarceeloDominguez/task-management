@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { View, StyleSheet } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
-import { useTasksStore } from "../../store/tasksStore";
+import { useSubTasksStore } from "../../store/subTasksStore";
 
 type Props = {
   heightActiveBar?: number;
@@ -13,6 +13,7 @@ type Props = {
   backgroundColorBarInactive?: string;
   backgroundColorBarActive?: string;
   done?: boolean;
+  percentage: number;
 };
 
 export default function ProgressBar({
@@ -21,40 +22,26 @@ export default function ProgressBar({
   backgroundColorBarInactive = "#3c444a",
   backgroundColorBarActive = "#3168e0",
   done,
+  percentage,
 }: Props) {
-  const { isLoading } = useTasksStore();
-  const [subTask, setSubTask] = useState<
-    { subtask: string; completed: boolean }[]
-  >([
-    { subtask: "Hola 2", completed: true },
-    { subtask: "Hola 3", completed: true },
-  ]);
-
-  useEffect(() => {
-    if (!isLoading) {
-      percentageWidth.value = done || subTask.length > 0 ? percentage : 0;
-    }
-  }, [isLoading, done]);
+  const { subTasks, isLoading } = useSubTasksStore();
 
   const percentageWidth = useSharedValue(0);
 
-  const filterSubTasksCompleted = subTask.filter(
-    (task) => task.completed === true
-  );
-
-  const percentage =
-    subTask.length === 0
-      ? 0
-      : (filterSubTasksCompleted.length / subTask.length) * 100;
+  useEffect(() => {
+    if (!isLoading) {
+      percentageWidth.value = done || subTasks.length > 0 ? percentage : 0;
+    }
+  }, [isLoading, done, percentage]);
 
   const progressAnimated = useAnimatedStyle(() => {
     return {
-      width: withTiming(`${percentageWidth.value}%`, { duration: 500 }),
+      width: withTiming(`${percentageWidth.value}%`, { duration: 250 }),
     };
   });
 
   return (
-    <View style={{ justifyContent: "center" }}>
+    <View style={styles.container}>
       <View
         style={[
           styles.bottomBar,
@@ -80,6 +67,9 @@ export default function ProgressBar({
 }
 
 const styles = StyleSheet.create({
+  container: {
+    justifyContent: "center",
+  },
   bottomBar: {
     width: "100%",
     position: "absolute",

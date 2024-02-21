@@ -5,4 +5,5 @@ export interface ITasks {
   startDate: Date;
   finalDate: Date;
   done: boolean;
+  percentageTaskCompleted: string;
 }

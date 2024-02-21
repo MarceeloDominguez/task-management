@@ -63,6 +63,8 @@ export const Form = () => {
         startDate: sortedDates[0] ? sortedDates[0] : taskToEdit.startDate,
         finalDate: selectDate[1] ? sortedDates[1] : taskToEdit.finalDate,
         done: taskCompleted,
+        //revisar aca
+        percentageTaskCompleted: "0",
       });
     } else {
       addTasks({
@@ -71,6 +73,7 @@ export const Form = () => {
         startDate: sortedDates[0],
         finalDate: sortedDates[1],
         done: false,
+        percentageTaskCompleted: "0",
       });
     }
 

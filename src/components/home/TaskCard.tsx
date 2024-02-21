@@ -16,7 +16,7 @@ type Props = {
 
 export const TaskCard = ({ item, backgroundColor }: Props) => {
   const navigation = useNavigation<UseNavigation>();
-  const { title, description, id, done } = item;
+  const { title, description, id, done, percentageTaskCompleted } = item;
 
   return (
     <View>
@@ -44,7 +44,10 @@ export const TaskCard = ({ item, backgroundColor }: Props) => {
             color={COLORS.TEXT_COLOR[1]}
           />
         </View>
-        <ProgressBarItemCard done={done} />
+        {/* <ProgressBarItemCard
+          done={done}
+          percentageTaskCompleted={percentageTaskCompleted}
+        /> */}
       </TouchableOpacity>
     </View>
   );

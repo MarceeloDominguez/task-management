@@ -11,6 +11,7 @@ interface ISubTaskValue {
 type State = {
   subTasks: ISubTaskValue[];
   isLoading: boolean;
+  allSubTask: ISubTaskValue[];
 };
 
 type Action = {
@@ -18,11 +19,13 @@ type Action = {
   addSubTasks: (values: ISubTaskValue) => void;
   deleteSubTask: (id: string) => void;
   editSubTask: (id: string, values: ISubTaskValue) => void;
+  getAllSubTasks: () => void;
 };
 
 export const useSubTasksStore = create<State & Action>((set) => ({
   subTasks: [],
   isLoading: true,
+  allSubTask: [],
 
   addSubTasks: async (values: ISubTaskValue) => {
     try {
@@ -77,6 +80,18 @@ export const useSubTasksStore = create<State & Action>((set) => ({
       set((state) => ({
         subTasks: state.subTasks.map((item) => (item.id === id ? data : item)),
       }));
+    } catch (error) {
+      console.log(error);
+    } finally {
+      set({ isLoading: false });
+    }
+  },
+
+  getAllSubTasks: async () => {
+    try {
+      set({ isLoading: true });
+      const { data } = await axios.get("http://10.0.2.2:5000/api/subtasks/");
+      set({ allSubTask: data });
     } catch (error) {
       console.log(error);
     } finally {

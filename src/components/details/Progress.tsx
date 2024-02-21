@@ -3,25 +3,23 @@ import { View, Text, StyleSheet } from "react-native";
 import { COLORS } from "../../constants/colors";
 import ProgressBar from "../ui/ProgressBar";
 import TextComponent from "../ui/TextComponent";
-import { useContextProvider } from "../../context/contextProvider";
-import { useTasksStore } from "../../store/tasksStore";
 
 type Props = {
   backgroundColor: string;
   done?: boolean;
+  percentage: number;
 };
 
-export const Progress = ({ backgroundColor, done }: Props) => {
-  const { taskCompleted } = useContextProvider();
-  const { isLoading } = useTasksStore();
-
+export const Progress = ({ backgroundColor, done, percentage }: Props) => {
   return (
     <View>
       <View style={styles.containerLabel}>
         <View style={[{ borderColor: backgroundColor }, styles.borderCircle]}>
           <View style={[styles.circle, { backgroundColor }]} />
         </View>
-        <Text style={styles.label}>En Progreso</Text>
+        <Text style={styles.label}>
+          {percentage < 100 ? "En Progreso" : "Completada"}
+        </Text>
       </View>
       <View style={styles.containerBarProgress}>
         <View style={{ flex: 1 }}>
@@ -30,10 +28,11 @@ export const Progress = ({ backgroundColor, done }: Props) => {
             heightInactiveBar={8}
             backgroundColorBarActive={backgroundColor}
             done={done}
+            percentage={percentage}
           />
         </View>
         <TextComponent
-          text={taskCompleted && !isLoading ? "100%" : "0%"}
+          text={`${percentage.toString().split(".")[0]}%`}
           color={COLORS.TEXT_COLOR[1]}
           fontSize={15}
           fontFamily="PoppinsBold"

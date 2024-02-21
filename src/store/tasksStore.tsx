@@ -8,6 +8,7 @@ interface ITaskValue {
   startDate: string | Date;
   finalDate: string | Date;
   done: boolean;
+  percentageTaskCompleted: string;
 }
 
 type State = {

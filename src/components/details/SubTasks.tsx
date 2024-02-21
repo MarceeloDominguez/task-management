@@ -6,12 +6,14 @@ import { useSubTasksStore } from "../../store/subTasksStore";
 import SubTask from "./SubTask";
 import Loading from "../ui/Loading";
 import { compareCompleted } from "../../helpers/compareCompleted";
+import { ISubTask } from "../../interface/subtask";
 
 type Props = {
   id: string;
+  handleToggleCompleteAndSave: (clickedSubTask: ISubTask) => void;
 };
 
-export const SubTasks = ({ id }: Props) => {
+export const SubTasks = ({ id, handleToggleCompleteAndSave }: Props) => {
   const { getSubTasksById, subTasks, isLoading } = useSubTasksStore();
 
   useEffect(() => {
@@ -31,7 +33,11 @@ export const SubTasks = ({ id }: Props) => {
         fontFamily="PoppinsSemiBold"
       />
       {sortedSubtasks.map((item, index) => (
-        <SubTask key={index} item={item} />
+        <SubTask
+          key={index}
+          item={item}
+          handleToggleCompleteAndSave={handleToggleCompleteAndSave}
+        />
       ))}
     </View>
   );

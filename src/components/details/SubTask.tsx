@@ -16,26 +16,13 @@ import { useContextSubTask } from "../../context/contextSubTasks";
 
 type Props = {
   item: ISubTask;
+  handleToggleCompleteAndSave: (clickedSubTask: ISubTask) => void;
 };
 
-export default function SubTask({ item }: Props) {
-  const [subtaskCompleted, setSubtaskCompleted] = useState(item.done);
+export default function SubTask({ item, handleToggleCompleteAndSave }: Props) {
   const [modalVisible, setModalVisible] = useState(false);
   const { handlePresentBottomSheet, getIdSubTask } = useContextSubTask();
-  const { deleteSubTask, editSubTask } = useSubTasksStore();
-
-  const handleToggleCompleteAndSave = () => {
-    const newSubTaskCompleted = !subtaskCompleted;
-    setSubtaskCompleted(newSubTaskCompleted);
-    sendToBackend(newSubTaskCompleted);
-  };
-
-  const sendToBackend = (newSubTaskCompleted: boolean) => {
-    editSubTask(item.id!, {
-      ...item,
-      done: newSubTaskCompleted,
-    });
-  };
+  const { deleteSubTask } = useSubTasksStore();
 
   return (
     <>
@@ -43,7 +30,7 @@ export default function SubTask({ item }: Props) {
         <TouchableOpacity
           activeOpacity={0.8}
           style={styles.contentTask}
-          onPress={() => handleToggleCompleteAndSave()}
+          onPress={() => handleToggleCompleteAndSave(item)}
         >
           <View
             style={[
