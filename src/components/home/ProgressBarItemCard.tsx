@@ -1,30 +1,35 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import ProgressBar from "../ui/ProgressBar";
 import TextComponent from "../ui/TextComponent";
 import { COLORS } from "../../constants/colors";
 
 type Props = {
-  done: boolean;
   percentageTaskCompleted: string;
 };
 
 export default function ProgressBarItemCard({
-  done,
   percentageTaskCompleted,
 }: Props) {
   return (
     <View>
-      <ProgressBar done={done} />
+      <View style={styles.containerBarProgress}>
+        <View
+          style={[
+            styles.barProgress,
+            { width: `${Number(percentageTaskCompleted)}%` },
+          ]}
+        />
+      </View>
       <View style={styles.wrapperTextBarProgress}>
         <TextComponent
-          text="Progreso"
+          text={
+            Number(percentageTaskCompleted) < 100 ? "En Progreso" : "Completada"
+          }
           fontSize={13}
           color={COLORS.TEXT_COLOR[1]}
           fontFamily="PoppinsSemiBold"
         />
         <TextComponent
-          //text={done ? "100%" : "0%"}
           text={`${percentageTaskCompleted}%`}
           color={COLORS.TEXT_COLOR[1]}
           fontSize={13}
@@ -40,5 +45,15 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     paddingTop: 5,
+  },
+  containerBarProgress: {
+    height: 6,
+    backgroundColor: "#3c444a",
+    borderRadius: 3,
+  },
+  barProgress: {
+    height: 6,
+    backgroundColor: "#3168e0",
+    borderRadius: 3,
   },
 });
